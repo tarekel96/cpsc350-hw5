@@ -3,7 +3,7 @@
 #include "Affiliate.h"
 using namespace std;
 /*
-  * @name Affiliate - abstract class that represents an affiliate of the university
+  * @name Student - class that represents a student of the university
   * @author Tarek El-Hajjaoui & Krishna Narayan
 */
 class Student: public Affiliate{

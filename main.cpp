@@ -2,6 +2,7 @@
 #include "BST.h"
 #include "Affiliate.h"
 #include "Student.h"
+#include "Faculty.h"
 using namespace std;
 
 int main(int argc, char ** argv){
@@ -94,6 +95,17 @@ int main(int argc, char ** argv){
 
   delete studentInstance;
   delete studentInstance2;
+
+  Faculty* facultyInstance = new Faculty(5, "Rene", "Full Time Professor", "CS");
+
+  cout << facultyInstance->toString();
+
+  Faculty* facultyInstance2 = new Faculty(*facultyInstance);
+
+  cout << facultyInstance2->toString();
+
+  delete facultyInstance;
+  delete facultyInstance2;
 
   return 0;
 }
