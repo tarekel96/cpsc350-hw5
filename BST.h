@@ -5,23 +5,22 @@
 template<class T>
 class BST{
   private:
+    /* FIELD */
     TreeNode<T>* root;
-
   public:
-    BST();
-    ~BST();
-
+    BST();  /* Default Constructor */
+    ~BST(); /* Destructor */
+    /* CORE FUNCTIONS */
     void insertNode(T value);
     bool searchNode(T value);
     bool deleteNode(T value);
-
-    // this function will play a role when deleting a node. *d represents the node to be deleted.
+    /* plays a role when deleting a node, *d represents the node to be deleted. */
     TreeNode<T>* getSuccessor(TreeNode<T> *d);
-
+    /* AUXILIARY FUNCTIONS */
     bool isEmpty();
     T getMax();
     T getMin();
-
+    /* PRINT FUNCTIONS */
     void recPrint(TreeNode<T>* node); // recursive print
     void printTree();
 };
@@ -53,10 +52,7 @@ void BST<T>::printTree(){
 }
 template<class T>
 T BST<T>::getMax(){
-  if(isEmpty()){
-    cerr << "ERROR: Tree is empty" << endl;
-    return -1;
-  }
+  if(isEmpty()) runtime_error("ERROR: Tree is empty, cannot getMax");
 
   TreeNode<T>* current = root;
   while(current->right != NULL){
@@ -67,10 +63,7 @@ T BST<T>::getMax(){
 }
 template<class T>
 T BST<T>::getMin(){
-  if(isEmpty()){
-    cerr << "ERROR: Tree is empty" << endl;
-    return -1;
-  }
+  if(isEmpty()) runtime_error("ERROR: Tree is empty, cannot getMin");
 
   TreeNode<T>* current = root;
   while(current->left != NULL){
