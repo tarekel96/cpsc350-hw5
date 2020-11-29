@@ -1,5 +1,6 @@
 #include <iostream>
 #include "BST.h"
+#include "Affiliate.h"
 using namespace std;
 
 int main(int argc, char ** argv){
@@ -70,6 +71,17 @@ int main(int argc, char ** argv){
   cout << "Min: " << bstInstance2->getMin() << endl;
 
   delete bstInstance2;
+
+  Affiliate* afInstance = new Affiliate(5, "bob", "freshman");
+
+  cout << afInstance->toString();
+
+  Affiliate* afInstance2 = new Affiliate(*afInstance);
+
+  cout << afInstance2->toString();
+
+  delete afInstance;
+  delete afInstance2;
 
   return 0;
 }
