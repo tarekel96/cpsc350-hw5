@@ -7,14 +7,14 @@ using namespace std;
   * @author Tarek El-Hajjaoui & Krishna Narayan
 */
 class Affiliate{
-  private:
+  protected:
     /* FIELDS */
     int m_id;
     string m_name;
     string m_level;
   public:
     Affiliate();  /* Default Constructor */
-    Affiliate(Affiliate& A); /* Copy Constructor */
+    Affiliate(const Affiliate& A); /* Copy Constructor */
     Affiliate(string name, string level); /* Overloaded Constructor */
     Affiliate(int id, string name, string level); /* Overloaded Constructor */
     ~Affiliate(); /* Destructor */

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "BST.h"
 #include "Affiliate.h"
+#include "Student.h"
 using namespace std;
 
 int main(int argc, char ** argv){
@@ -82,6 +83,17 @@ int main(int argc, char ** argv){
 
   delete afInstance;
   delete afInstance2;
+
+  Student* studentInstance = new Student(5, "bob", "freshman", "CS", 3.67, 42);
+
+  cout << studentInstance->toString();
+
+  Student* studentInstance2 = new Student(*studentInstance);
+
+  cout << studentInstance2->toString();
+
+  delete studentInstance;
+  delete studentInstance2;
 
   return 0;
 }

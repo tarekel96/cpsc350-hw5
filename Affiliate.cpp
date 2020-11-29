@@ -5,7 +5,7 @@ Affiliate::Affiliate(){
   m_name = "";
   m_level = "";
 }
-Affiliate::Affiliate(Affiliate& A){
+Affiliate::Affiliate(const Affiliate& A){
   m_id = A.m_id;
   m_name = A.m_name;
   m_level = A.m_level;
