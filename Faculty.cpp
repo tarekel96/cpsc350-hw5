@@ -2,19 +2,23 @@
 
 Faculty::Faculty():Affiliate(){
   m_department = "";
-  StudentIds = new GenLinkedList<int>();
+  m_StudentIds = new GenLinkedList<int>();
 }
 Faculty::Faculty(const Faculty& F):Affiliate(F){
   m_department = F.m_department;
-  StudentIds = F.StudentIds;
+  m_StudentIds = F.m_StudentIds;
 }
 Faculty::Faculty(string name, string level, string department):Affiliate(name, level){
   m_department = department;
-  StudentIds = new GenLinkedList<int>();
+  m_StudentIds = new GenLinkedList<int>();
 }
 Faculty::Faculty(int id, string name, string level, string department):Affiliate(id, name, level){
   m_department = department;
-  StudentIds = new GenLinkedList<int>();
+  m_StudentIds = new GenLinkedList<int>();
+}
+Faculty::Faculty(int id, string name, string level, string department, GenLinkedList<int>* StudentIds):Affiliate(id, name, level){
+  m_department = department;
+  m_StudentIds = StudentIds;
 }
 Faculty::~Faculty(){}
 string Faculty::getDepartment(){
@@ -30,6 +34,6 @@ string Faculty::toString(){
   ret += "\n";
   return ret;
 }
-// void Faculty::printStudentIds(){
-//   StudentIds->printList(false);
-// }
+void Faculty::printStudentIds(){
+  m_StudentIds->printList();
+}
