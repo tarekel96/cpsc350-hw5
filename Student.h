@@ -28,5 +28,6 @@ class Student: public Affiliate{
     void setAdvisorId(int advisorId);
     /* PRINT FUNCTION */
     string toString();
+    // friend ostream& operator<<(ostream& os, const Student& s);
 };
 #endif

@@ -53,3 +53,8 @@ string Student::toString(){
   ret += "\n";
   return ret;
 }
+// ostream& operator<<(ostream& os, const Student& s)
+// {
+//     os << s.m_major << '/' << dt.da << '/' << dt.yr;
+//     return os;
+// }
