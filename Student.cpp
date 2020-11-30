@@ -10,11 +10,6 @@ Student::Student(const Student& S):Affiliate(S){
   m_gpa = S.m_gpa;
   m_advisorId = S.m_advisorId;
 }
-Student::Student(int id):Affiliate(id){
-  m_id = id;
-  m_gpa = S.m_gpa;
-  m_advisorId = S.m_advisorId;
-}
 Student::Student(string name, string level, string major, double gpa, int advisorId):Affiliate(name, level){
   m_id = -1;
   m_major = major;
