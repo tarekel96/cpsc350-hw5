@@ -3,6 +3,7 @@
 #include "Affiliate.h"
 #include "Student.h"
 #include "Faculty.h"
+#include "GenLinkedList.h"
 using namespace std;
 
 int main(int argc, char ** argv){
@@ -106,6 +107,44 @@ int main(int argc, char ** argv){
 
   delete facultyInstance;
   delete facultyInstance2;
+
+  GenLinkedList<int>* ll = new GenLinkedList<int>();
+  cout << "SIZE " << ll->getSize() << endl;
+  ll->insertBack(4);
+  ll->insertBack(7);
+  ll->insertFront(3);
+  ll->insertFront(2);
+  ll->insertFront(1);
+  cout << "Find 3: " << to_string(ll->find(3)) << endl;
+  cout << "SIZE " << ll->getSize() << endl;
+  ll->printList(true);
+  ll->removeFront();
+  ll->printList(true);
+  ll->removeBack();
+  ll->printList(true);
+  ll->deletePos(1);
+  cout << "SIZE " << ll->getSize() << endl;
+  ll->printList(true);
+  delete ll;
+
+  GenLinkedList<char>* ll2 = new GenLinkedList<char>();
+  cout << "SIZE " << ll2->getSize() << endl;
+  ll2->insertBack('a');
+  ll2->insertBack('d');
+  ll2->insertFront('b');
+  ll2->insertFront('y');
+  ll2->insertFront('g');
+  cout << "Find y: " << to_string(ll2->find('y')) << endl;
+  cout << "SIZE " << ll2->getSize() << endl;
+  ll2->printList(true);
+  ll2->removeFront();
+  ll2->printList(true);
+  ll2->removeBack();
+  ll2->printList(true);
+  ll2->deletePos(1);
+  cout << "SIZE " << ll2->getSize() << endl;
+  ll2->printList(true);
+  delete ll2;
 
   return 0;
 }
