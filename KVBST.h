@@ -152,10 +152,10 @@ bool KVBST<T>::deleteNode(int k){
   KVTreeNode<T>* current = root;
   bool isLeftNode = true;
 
-  cout << "key to match -> " << k << endl;
-  cout << "current k -> " << current->key << endl;
+  // cout << "key to match -> " << k << endl;
+  // cout << "current k -> " << current->key << endl;
   while(current->key != k){
-    cout << "current k -> " << current->key << endl;
+    // cout << "current k -> " << current->key << endl;
 
     parent = current;
 

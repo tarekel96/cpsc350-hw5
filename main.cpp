@@ -9,17 +9,17 @@
 
 int main(int argc, char ** argv){
   Database *db = new Database();
-  db->addStudent(31, "krishna", "junior", "avfx/cs", 3.5, 22);
-  db->addStudent(43, "tarek", "junior", "cs", 3.5, 3);
-  db->addStudent(15, "zzzz", "junior", "avfx/cs", 3.5, 4);
-  db->deleteStudent(31); //doesn't delete
-
 
   db->addFaculty(22, "rene", "prof", "cs");
   db->addFaculty(3, "moshier", "prof", "math");
   db->addFaculty(11, "harrison", "prof", "cs");
   db->addFaculty(91, "stevens", "prof", "math");
   db->deleteFaculty(11); // deletes the wrong node
+
+  db->addStudent(31, "krishna", "junior", "avfx/cs", 3.5, 22);
+  db->addStudent(43, "tarek", "junior", "cs", 3.5, 3);
+  db->addStudent(15, "zzzz", "junior", "avfx/cs", 3.5, 91);
+  db->deleteStudent(31); //doesn't delete
 
   cout << "-------students-------" << endl;
   db->printStudents();
