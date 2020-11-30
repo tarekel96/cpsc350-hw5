@@ -1,5 +1,6 @@
 #ifndef GENLINKEDLIST_H
 #define GENLINKEDLIST_H
+#include <iostream>
 #include "ListNode.h"
 using namespace std;
 template<class T>
@@ -17,7 +18,7 @@ class GenLinkedList{
     T removeBack();
     int find(T value); // search
     T deletePos(int pos);
-    void printList(bool printLink);
+    void printList();
     bool isEmpty();
     unsigned int getSize();
 };
@@ -60,23 +61,11 @@ void GenLinkedList<T>::insertBack(T d){
   ++size;
 }
 template<class T>
-void GenLinkedList<T>::printList(bool printLink){
+void GenLinkedList<T>::printList(){
   ListNode<T>* curr = front;
-  while(curr != 0){
-     if(curr == front){
-       cout << "{FRONT}: ";
-     }
-     else if(curr == back){
-       cout << "{REAR}: ";
-     }
-     if(printLink)
-      cout << "[ " << curr->data << " || " << curr->next << " ] ";
-    else
-      cout << "[ "<< curr->data << "  ] ";
-     curr = curr->next;
-     if(curr != 0){
-       cout << " ==> ";
-     }
+  while(curr != NULL){
+    cout << curr->data << " ";
+    curr = curr->next;
   }
   cout << endl;
 }
@@ -116,8 +105,7 @@ T GenLinkedList<T>::removeBack(){
     size--;
   }
   else {
-    cerr << "List is empty" << endl;
-    return -1;
+    runtime_error("ERROR: cannot removeBack");
   }
   delete nodeToDelete;
   return temp;

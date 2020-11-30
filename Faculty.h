@@ -11,12 +11,13 @@ class Faculty: public Affiliate{
   private:
     /* FIELDS */
     string m_department;
-    GenLinkedList<int>* StudentIds; /* list of integers corresponding to all of the faculty member’s advisees’ ids */
+    GenLinkedList<int>* m_StudentIds; /* list of integers corresponding to all of the faculty member’s advisees’ ids */
   public:
     Faculty();  /* Default Constructor */
     Faculty(const Faculty &F);  /* Copy Constructor */
     Faculty(string name, string level, string department); /* Overloaded Constructor */
     Faculty(int id, string name, string level, string department); /* Overloaded Constructor */
+    Faculty(int id, string name, string level, string department, GenLinkedList<int>* StudentIds); /* Overloaded Constructor */
     ~Faculty(); /* Destructor */
     /* ACCESSORS */
     string getDepartment();
@@ -24,6 +25,6 @@ class Faculty: public Affiliate{
     void setDepartment(string department);
     /* PRINT FUNCTIONS */
     string toString();
-    //void printStudentIds();
+    void printStudentIds();
 };
 #endif
