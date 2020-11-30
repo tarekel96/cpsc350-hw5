@@ -1,6 +1,7 @@
 #ifndef FACULTY_H
 #define FACULTY_H
 #include "Affiliate.h"
+#include "GenLinkedList.h"
 using namespace std;
 /*
   * @name Faculty - class that represents a faculty member of the university
@@ -10,7 +11,7 @@ class Faculty: public Affiliate{
   private:
     /* FIELDS */
     string m_department;
-    // TODO List StudentIdNumbers;
+    GenLinkedList<int>* StudentIds; /* list of integers corresponding to all of the faculty member’s advisees’ ids */
   public:
     Faculty();  /* Default Constructor */
     Faculty(const Faculty &F);  /* Copy Constructor */
@@ -21,7 +22,8 @@ class Faculty: public Affiliate{
     string getDepartment();
     /* MUTATORS */
     void setDepartment(string department);
-    /* PRINT FUNCTION */
+    /* PRINT FUNCTIONS */
     string toString();
+    //void printStudentIds();
 };
 #endif
