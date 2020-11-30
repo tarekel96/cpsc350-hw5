@@ -22,7 +22,8 @@ class Database{
     void addStudent(int id, string name, string level, string major, double gpa, int advisorId);
     void deleteStudent(int id);
     void addFaculty(int id, string name, string level, string department);
-    void changeAdvisor(int id);
+    void deleteFaculty(int id);
+    void changeAdvisor(int studentId, int facultyId);
     void removeAdvisee(int facultyId, int studentId);
     void rollback();
     void exit();

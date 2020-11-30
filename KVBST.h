@@ -20,6 +20,7 @@ class KVBST{
     bool isEmpty();
     T getMax();
     T getMin();
+    T getNode(int k);
     /* PRINT FUNCTIONS */
     void recPrint(KVTreeNode<T>* node); // recursive print
     void printTree();
@@ -42,7 +43,7 @@ template<class T>
 void KVBST<T>::recPrint(KVTreeNode<T>* node){
   if(node != NULL){
     recPrint(node->left);
-    cout << node->key << endl;
+    cout << node->value->toString() << endl;
     recPrint(node->right);
   }
 }
@@ -72,6 +73,23 @@ T KVBST<T>::getMin(){
 
   return current->key;
 }
+
+template<class T>
+T KVBST<T>::getNode(int k){
+  if(isEmpty()) runtime_error("ERROR: Tree is empty, cannot get node");
+  else{
+    // tree is not empty
+    KVTreeNode<T>* current = root;
+    while(current->key != k){
+      if(k < current->key)
+        current = current->left;
+      else
+        current = current->right;
+    }
+    return current->value;
+  }
+}
+
 template<class T>
 void KVBST<T>::insertNode(int k, T value){
 
@@ -134,7 +152,11 @@ bool KVBST<T>::deleteNode(int k){
   KVTreeNode<T>* current = root;
   bool isLeftNode = true;
 
+  cout << "key to match -> " << k << endl;
+  cout << "current k -> " << current->key << endl;
   while(current->key != k){
+    cout << "current k -> " << current->key << endl;
+
     parent = current;
 
     // if(value < current->left){ // TODO
