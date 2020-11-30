@@ -1,45 +1,45 @@
-#ifndef BST_H
-#define BST_H
-#include "TreeNode.h"
+#ifndef KVBST_H
+#define KVBST_H
+#include "KVTreeNode.h"
 
 template<class T>
-class BST{
+class KVBST{
   private:
     /* FIELD */
-    TreeNode<T>* root;
+    KVTreeNode<T>* root;
   public:
-    BST();  /* Default Constructor */
-    ~BST(); /* Destructor */
+    KVBST();  /* Default Constructor */
+    ~KVBST(); /* Destructor */
     /* CORE FUNCTIONS */
     void insertNode(int k, T value);
     bool searchNode(int k);
     bool deleteNode(int k);
     /* plays a role when deleting a node, *d represents the node to be deleted. */
-    TreeNode<T>* getSuccessor(TreeNode<T> *d);
+    KVTreeNode<T>* getSuccessor(KVTreeNode<T> *d);
     /* AUXILIARY FUNCTIONS */
     bool isEmpty();
     T getMax();
     T getMin();
     /* PRINT FUNCTIONS */
-    void recPrint(TreeNode<T>* node); // recursive print
+    void recPrint(KVTreeNode<T>* node); // recursive print
     void printTree();
 };
 template<class T>
-BST<T>::BST(){
+KVBST<T>::KVBST(){
   root = NULL; // empty tree
 }
 template<class T>
-BST<T>::~BST(){
+KVBST<T>::~KVBST(){
   // iterate and delete, this O(n)- cannot delete from top down
   if(root != NULL) delete root;
   root = NULL;
 }
 template<class T>
-bool BST<T>::isEmpty(){
+bool KVBST<T>::isEmpty(){
   return (root == NULL);
 }
 template<class T>
-void BST<T>::recPrint(TreeNode<T>* node){
+void KVBST<T>::recPrint(KVTreeNode<T>* node){
   if(node != NULL){
     recPrint(node->left);
     cout << node->key << endl;
@@ -47,14 +47,14 @@ void BST<T>::recPrint(TreeNode<T>* node){
   }
 }
 template<class T>
-void BST<T>::printTree(){
+void KVBST<T>::printTree(){
   recPrint(root);
 }
 template<class T>
-T BST<T>::getMax(){
+T KVBST<T>::getMax(){
   if(isEmpty()) runtime_error("ERROR: Tree is empty, cannot getMax");
 
-  TreeNode<T>* current = root;
+  KVTreeNode<T>* current = root;
   while(current->right != NULL){
     current = current->right;
   }
@@ -62,10 +62,10 @@ T BST<T>::getMax(){
   return current->key;
 }
 template<class T>
-T BST<T>::getMin(){
+T KVBST<T>::getMin(){
   if(isEmpty()) runtime_error("ERROR: Tree is empty, cannot getMin");
 
-  TreeNode<T>* current = root;
+  KVTreeNode<T>* current = root;
   while(current->left != NULL){
     current = current->left;
   }
@@ -73,14 +73,14 @@ T BST<T>::getMin(){
   return current->key;
 }
 template<class T>
-void BST<T>::insertNode(int k, T value){
+void KVBST<T>::insertNode(int k, T value){
 
-  TreeNode<T>* node = new TreeNode<T>(value);
+  KVTreeNode<T>* node = new KVTreeNode<T>(k, value);
   if(isEmpty()) root = node;
   else{
     // it is not an empty tree, need to find the insertion point
-    TreeNode<T>* current = root;
-    TreeNode<T>* parent = NULL;
+    KVTreeNode<T>* current = root;
+    KVTreeNode<T>* parent = NULL;
 
     while(true){
       // iterate to find correct insertion point
@@ -109,11 +109,11 @@ void BST<T>::insertNode(int k, T value){
   }
 }
 template<class T>
-bool BST<T>::searchNode(int k){
+bool KVBST<T>::searchNode(int k){
   if(isEmpty()) return false;
   else{
     // tree is not empty
-    TreeNode<T>* current = root;
+    KVTreeNode<T>* current = root;
     while(current->key != k){
       if(k < current->key)
         current = current->left;
@@ -126,12 +126,12 @@ bool BST<T>::searchNode(int k){
   return true;
 }
 template<class T>
-bool BST<T>::deleteNode(int k){
+bool KVBST<T>::deleteNode(int k){
   if(isEmpty()) return false; // root == NULL
 
   // invoke search to determine whether exist or not
-  TreeNode<T>* parent = NULL;
-  TreeNode<T>* current = root;
+  KVTreeNode<T>* parent = NULL;
+  KVTreeNode<T>* current = root;
   bool isLeftNode = true;
 
   while(current->key != k){
@@ -191,7 +191,7 @@ bool BST<T>::deleteNode(int k){
       // the node to be deleted has two children
       // we have to find the successor
 
-      TreeNode<T>* successor = getSuccessor(current); // current is the node to be deleted
+      KVTreeNode<T>* successor = getSuccessor(current); // current is the node to be deleted
       if(current == root) root = successor;
       else if(isLeftNode) parent->left = successor;
       else                parent->right = successor;
@@ -204,10 +204,10 @@ bool BST<T>::deleteNode(int k){
   return true;
 }
 template<class T>
-TreeNode<T>* BST<T>::getSuccessor(TreeNode<T>* d){
-  TreeNode<T>* sp = d; // successor parent
-  TreeNode<T>* successor = d;
-  TreeNode<T>* current = d->right;
+KVTreeNode<T>* KVBST<T>::getSuccessor(KVTreeNode<T>* d){
+  KVTreeNode<T>* sp = d; // successor parent
+  KVTreeNode<T>* successor = d;
+  KVTreeNode<T>* current = d->right;
 
   while(current != NULL){
     sp = successor;

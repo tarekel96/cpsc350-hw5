@@ -1,36 +1,36 @@
-#ifndef TREENODE_H
-#define TREENODE_H
+#ifndef KVTREENODE_H
+#define KVTREENODE_H
 #include <iostream>
 using namespace std;
 
 template<class T>
-class TreeNode{
+class KVTreeNode{
   public:
-    TreeNode();
-    // TreeNode(T k); // passing in a key/value
-    TreeNode(int k, T value)
-    ~TreeNode();
+    KVTreeNode();
+    // KVTreeNode(T k); // passing in a key/value
+    KVTreeNode(int k, T value);
+    ~KVTreeNode();
 
     int key;
     T value;
      // data as well as the key; search and sort on the key not the value
-    TreeNode* left;
-    TreeNode* right;
+    KVTreeNode* left;
+    KVTreeNode* right;
 };
 template<class T>
-TreeNode<T>::TreeNode(){
+KVTreeNode<T>::KVTreeNode(){
   left = NULL;
   right = NULL;
 }
 template<class T>
-TreeNode<T>::TreeNode(int k, T v){
+KVTreeNode<T>::KVTreeNode(int k, T v){
   left = NULL;
   right = NULL;
   key = k;
   value = v;
 }
 template<class T>
-TreeNode<T>::~TreeNode(){
+KVTreeNode<T>::~KVTreeNode(){
   if(left != NULL) delete left;
   if(right != NULL) delete right;
   left = NULL;
