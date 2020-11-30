@@ -3,8 +3,8 @@
 
 class Database{
   private:
-    BST<Faculty> *faculty;
-    BST<Student> *students;
+    BST<Faculty*> *faculty;
+    BST<Student*> *students;
 
   public:
     Database();

@@ -1,8 +1,8 @@
 #include "Database.h"
 
 Database::Database(){
-  faculty = new BST<Faculty>();
-  students = new BST<Student>();
+  faculty = new BST<Faculty*>();
+  students = new BST<Student*>();
 }
 
 Database::~Database(){
@@ -19,7 +19,7 @@ void Database::printFaculty(){
 }
 
 void Database::findStudent(int id){
-  
+
 }
 
 void Database::findFaculty(int id){
