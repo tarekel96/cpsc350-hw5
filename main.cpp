@@ -1,16 +1,11 @@
-// #include <iostream>
-// #include "BST.h"
-// #include "Affiliate.h"
-// #include "Student.h"
-// #include "Faculty.h"
-// #include "GenLinkedList.h"
-// using namespace std;
+#include <iostream>
 #include "Database.h"
 #include "KVBST.h"
 #include "FileError.h"
 using namespace std;
 
 int main(int argc, char ** argv){
+
 
   FileError* FE; /* used to check file input */
   if(argc > 1){  /* if console argument provided */
@@ -46,13 +41,16 @@ int main(int argc, char ** argv){
 
   db->addStudent(31, "krishna", "junior", "avfx/cs", 3.5, 22);
   db->addStudent(43, "tarek", "junior", "cs", 3.5, 3);
-  db->addStudent(15, "zzzz", "junior", "avfx/cs", 3.5, 91);
-  db->deleteStudent(31);
+  db->addStudent(15, "zzzz", "junior", "avfx/cs", 3.5, 22);
+  // db->deleteStudent(31);
 
-  cout << "-------students-------" << endl;
-  db->printStudents();
-  cout << "-------faculty-------" << endl;
-  db->printFaculty();
+  db->printFacultyAdvisees(22);
+  db->removeAdvisee(22, 31);
+  db->printFacultyAdvisees(22);
+  // cout << "-------students-------" << endl;
+  // db->printStudents();
+  // cout << "-------faculty-------" << endl;
+  // db->printFaculty();
   delete db;
 
   return 0;

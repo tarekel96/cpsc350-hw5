@@ -25,6 +25,7 @@ class GenLinkedList{
     void printList();
     bool isEmpty();
     unsigned int getSize();
+    T getPos(int pos);
 };
 template<class T>
 GenLinkedList<T>::GenLinkedList(){
@@ -150,4 +151,8 @@ T GenLinkedList<T>::deletePos(int pos){
   delete curr;
   return temp;
 }
+// template<class T>
+// T GenLinkedList<T>::getPos(int pos){
+//
+// }
 #endif
