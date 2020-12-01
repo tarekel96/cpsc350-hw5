@@ -22,8 +22,8 @@ class KVBST{
     T getMin();
     T getNode(int k);
     /* PRINT FUNCTIONS */
-    void recPrint(KVTreeNode<T>* node); // recursive print
-    void printTree();
+    void recPrint(KVTreeNode<T>* node, bool toString); // recursive print
+    void printTree(bool toString);
 };
 template<class T>
 KVBST<T>::KVBST(){
@@ -40,16 +40,17 @@ bool KVBST<T>::isEmpty(){
   return (root == NULL);
 }
 template<class T>
-void KVBST<T>::recPrint(KVTreeNode<T>* node){
+void KVBST<T>::recPrint(KVTreeNode<T>* node, bool toString){
   if(node != NULL){
-    recPrint(node->left);
-    cout << node->value->toString() << endl;
-    recPrint(node->right);
+    recPrint(node->left, toString);
+    if(toString) cout << node->value->toString() << ", ";
+    else cout << node->value << ", ";
+    recPrint(node->right, toString);
   }
 }
 template<class T>
-void KVBST<T>::printTree(){
-  recPrint(root);
+void KVBST<T>::printTree(bool toString){
+  recPrint(root, toString);
 }
 template<class T>
 T KVBST<T>::getMax(){
@@ -147,16 +148,11 @@ template<class T>
 bool KVBST<T>::deleteNode(int k){
   if(isEmpty()) return false; // root == NULL
 
-  // invoke search to determine whether exist or not
   KVTreeNode<T>* parent = NULL;
   KVTreeNode<T>* current = root;
   bool isLeftNode = true;
 
-  // cout << "key to match -> " << k << endl;
-  // cout << "current k -> " << current->key << endl;
   while(current->key != k){
-    // cout << "current k -> " << current->key << endl;
-
     parent = current;
 
     // if(value < current->left){ // TODO
@@ -168,46 +164,30 @@ bool KVBST<T>::deleteNode(int k){
       isLeftNode = false;
       current = current->right;
     }
+   }
     if(current == NULL) return false; // value does not exist
 
     // at this point, we have found our key/value, now let's proceed to delete this node
 
     // case: node to be deleted does not have children, AKA a leaf node
     if(current->left == NULL && current->right == NULL){
-      if(current == root){
-        root = NULL;
-      }
-      else if(isLeftNode){
-        parent->left = NULL;
-      }
-      else{
-        parent->right = NULL;
-      }
+      if(current == root) root = NULL;
+      else if(isLeftNode) parent->left = NULL;
+      else parent->right = NULL;
     }
     // case: node to be deleted has one child. need to determine whether descendant is left or right
     else if(current->right == NULL){
       // does not have a right child, must have left
-      if(current == root){
-        root = current->left;
-      }
-      else if(isLeftNode){
-        parent->left = current->left;
-      }
-      else{
-        parent->right = current->left;
-      }
+      if(current == root) root = current->left;
+      else if(isLeftNode) parent->left = current->left;
+      else parent->right = current->left;
+
     }
     else if(current->left == NULL){
       // does not have a left child, must have right
-      if(current == root){
-        root = current->right;
-      }
-      else if(isLeftNode){
-        parent->left = current->right;
-      }
-      else{
-        parent->right = current->right;
-      }
+      if(current == root) root = current->right;
+      else if(isLeftNode) parent->left = current->right;
+      else parent->right = current->right;
     }
     else{
       // the node to be deleted has two children
@@ -220,8 +200,6 @@ bool KVBST<T>::deleteNode(int k){
 
       successor->left = current->left;
     }
-  }
-  // cout << "current key " << current->key << endl;
   // delete (garbage collect) in this function or do we something special in the destructor
   return true;
 }
