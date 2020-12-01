@@ -151,8 +151,18 @@ T GenLinkedList<T>::deletePos(int pos){
   delete curr;
   return temp;
 }
-// template<class T>
-// T GenLinkedList<T>::getPos(int pos){
-//
-// }
+template<class T>
+T GenLinkedList<T>::getPos(int pos){
+  int p = 0; // position
+  ListNode<T>* curr = front;
+  ListNode<T>* prev = front;
+
+  while(p != pos){
+    prev = curr;
+    curr = curr->next;
+    p++;
+  }
+
+  return curr->data;
+}
 #endif

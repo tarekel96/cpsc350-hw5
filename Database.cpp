@@ -54,7 +54,12 @@ void Database::changeAdvisor(int studentId, int facultyId){
 void Database::printFacultyAdvisees(int id){
   //loop through the faculty advisee list and print using findStudent
   if(faculty->searchNode(id)){
-    faculty->getNode(id)->printStudentIds();
+    // cout << "ok" << endl;
+    // cout << faculty->getNode(id)->getListSize() << endl;
+    // cout << students->getNode(faculty->getNode(id)->getStudentId(0))->toString() << endl;
+    for(int i = 0; i < faculty->getNode(id)->getListSize(); ++i){
+      cout << students->getNode(faculty->getNode(id)->getStudentId(i))->toString() << endl;
+    }
   }else{
     cout << "faculty does not exist" << endl;
   }
