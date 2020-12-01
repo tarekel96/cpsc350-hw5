@@ -10,7 +10,7 @@
 using namespace std;
 
 int main(int argc, char ** argv){
-  
+
   // testing BST w/ numbers
   // KVBST<int>* bstNumbers = new KVBST<int>();
   //
@@ -54,13 +54,16 @@ int main(int argc, char ** argv){
 
   db->addStudent(31, "krishna", "junior", "avfx/cs", 3.5, 22);
   db->addStudent(43, "tarek", "junior", "cs", 3.5, 3);
-  db->addStudent(15, "zzzz", "junior", "avfx/cs", 3.5, 91);
-  db->deleteStudent(31);
+  db->addStudent(15, "zzzz", "junior", "avfx/cs", 3.5, 22);
+  // db->deleteStudent(31);
 
-  cout << "-------students-------" << endl;
-  db->printStudents();
-  cout << "-------faculty-------" << endl;
-  db->printFaculty();
+  db->printFacultyAdvisees(22);
+  db->removeAdvisee(22, 31);
+  db->printFacultyAdvisees(22);
+  // cout << "-------students-------" << endl;
+  // db->printStudents();
+  // cout << "-------faculty-------" << endl;
+  // db->printFaculty();
   delete db;
 
   return 0;

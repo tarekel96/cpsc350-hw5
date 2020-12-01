@@ -51,18 +51,28 @@ void Database::changeAdvisor(int studentId, int facultyId){
   }
 }
 
-// void Database::printFacultyAdvisees(int id){
-//   //loop through the faculty advisee list and print using findStudent
-// }
+void Database::printFacultyAdvisees(int id){
+  //loop through the faculty advisee list and print using findStudent
+  if(faculty->searchNode(id)){
+    faculty->getNode(id)->printStudentIds();
+  }else{
+    cout << "faculty does not exist" << endl;
+  }
+}
 
 //
-// void Database::removeAdvisee(int facultyId, int studentId){
-//
-// }
+void Database::removeAdvisee(int facultyId, int studentId){
+  if(faculty->searchNode(facultyId)){
+    faculty->getNode(facultyId)->removeAdvisee(studentId);
+  }else{
+    cout << "faculty does not exist" << endl;
+  }
+}
 
 void Database::addStudent(int id, string name, string level, string major, double gpa, int advisorId){
   if(faculty->searchNode(advisorId)){
     students->insertNode(id, new Student(id, name, level, major, gpa, advisorId));
+    faculty->getNode(advisorId)->addAdvisee(id);
   }else{
     cout << "the student could not be entered into the system because of an invalid faculty advisor id" << endl;
   }
