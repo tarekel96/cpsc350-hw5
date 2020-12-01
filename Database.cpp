@@ -11,11 +11,11 @@ Database::~Database(){
 }
 
 void Database::printStudents(){
-  students->printTree();
+  students->printTree(true);
 }
 
 void Database::printFaculty(){
-  faculty->printTree();
+  faculty->printTree(true);
 }
 
 void Database::findStudent(int id){
