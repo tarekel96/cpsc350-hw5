@@ -37,6 +37,12 @@ string Faculty::toString(){
 void Faculty::printStudentIds(){
   m_StudentIds->printList();
 }
+int Faculty::getListSize(){
+  return m_StudentIds->getSize();
+}
+int Faculty::getStudentId(int pos){
+  return m_StudentIds->getPos(pos);
+}
 void Faculty::addAdvisee(int id){
   m_StudentIds->insertFront(id);
 }

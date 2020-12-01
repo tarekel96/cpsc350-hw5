@@ -26,6 +26,8 @@ class Faculty: public Affiliate{
     /* PRINT FUNCTIONS */
     string toString();
     void printStudentIds();
+    int getListSize();
+    int getStudentId(int pos);
     void addAdvisee(int id);
     void removeAdvisee(int id);
 };
