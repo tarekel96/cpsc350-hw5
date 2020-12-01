@@ -1,48 +1,35 @@
-// #include <iostream>
-// #include "BST.h"
-// #include "Affiliate.h"
-// #include "Student.h"
-// #include "Faculty.h"
-// #include "GenLinkedList.h"
-// using namespace std;
+#include <iostream>
 #include "Database.h"
 #include "KVBST.h"
+#include "FileError.h"
 using namespace std;
 
 int main(int argc, char ** argv){
 
-  // testing BST w/ numbers
-  // KVBST<int>* bstNumbers = new KVBST<int>();
-  //
-  // cout << "Is Empty: " << bstNumbers->isEmpty() << endl;
-  // cout << "Searching for 5: " << bstNumbers->searchNode(5) << endl;
-  //
-  // // tested insert ok
-  // bstNumbers->insertNode(2,5);
-  // bstNumbers->insertNode(1,2);
-  // bstNumbers->insertNode(5,7);
-  // bstNumbers->insertNode(3,8);
-  // bstNumbers->insertNode(4,6);
-  // bstNumbers->insertNode(6,7);
-  // cout << "Printing Tree..." << endl;
-  // bstNumbers->printTree();
-  // cout << endl;
-  //
-  // // tested aux functions ok
-  // cout << "Is Empty: " << bstNumbers->isEmpty() << endl;
-  // cout << "Get Max " << bstNumbers->getMax() << endl;
-  // cout << "Get Min " << bstNumbers->getMin() << endl;
-  // cout << "Searching for 5: " << bstNumbers->searchNode(5) << endl;
-  // // tested getNode ok
-  // cout << "Get Node 5 value: " << bstNumbers->getNode(5) << endl;
-  // // tested deleteNode ok
-  // cout << "Deleting Node 4: "<< bstNumbers->deleteNode(4) << endl;
-  //
-  // cout << "Printing Tree..." << endl;
-  // bstNumbers->printTree();
-  // cout << endl;
-  //
-  // delete bstNumbers;
+
+  FileError* FE; /* used to check file input */
+  if(argc > 1){  /* if console argument provided */
+    FE = new FileError(argv[1]);
+
+    if(FE->pass() == false){
+      while(true){
+        FE->setFile(FE->getFile());
+        if(FE->pass()) break;
+      }
+    }
+  }
+  else { /* if no console argument provided - get file name */
+    FE = new FileError();
+
+    if(FE->pass() == false){
+      while(true){
+        FE->setFile(FE->getFile());
+        if(FE->pass()) break;
+      }
+    }
+  }
+  /* at this point, the user inputted file is valid */
+  string file = FE->getFileValue();
 
   Database *db = new Database();
 

@@ -1,12 +1,12 @@
 #ifndef FACULTY_H
 #define FACULTY_H
-#include "Affiliate.h"
-#include "GenLinkedList.h"
-using namespace std;
 /*
   * @name Faculty - class that represents a faculty member of the university
   * @author Tarek El-Hajjaoui & Krishna Narayan
 */
+#include "Affiliate.h"
+#include "GenLinkedList.h"
+using namespace std;
 class Faculty: public Affiliate{
   private:
     /* FIELDS */

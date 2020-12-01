@@ -1,4 +1,10 @@
 //header file GenStack.h
+#ifndef GENSTACK_H
+#define GENSTACK_H
+/*
+  * @name GenStack - class that represents a template class version of a Stack Data Structure
+  * @author Tarek El-Hajjaoui & Krishna Narayan
+*/
 #include <iostream>
 using namespace std;
 
@@ -102,3 +108,4 @@ class GenStack{
       maxSize = maxSize*2;
     }
 };
+#endif

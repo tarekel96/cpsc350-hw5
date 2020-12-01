@@ -1,5 +1,9 @@
 #ifndef KVTREENODE_H
 #define KVTREENODE_H
+/*
+  * @name KVTreeNode - class that represents a template class version of a Key-Value Tree Node for a Binary Search Tree
+  * @author Tarek El-Hajjaoui & Krishna Narayan
+*/
 #include <iostream>
 using namespace std;
 
