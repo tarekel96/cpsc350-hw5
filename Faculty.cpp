@@ -37,3 +37,10 @@ string Faculty::toString(){
 void Faculty::printStudentIds(){
   m_StudentIds->printList();
 }
+void Faculty::addAdvisee(int id){
+  m_StudentIds->insertFront(id);
+}
+void Faculty::removeAdvisee(int id){
+  int pos = m_StudentIds->find(id);
+  m_StudentIds->deletePos(pos);
+}
