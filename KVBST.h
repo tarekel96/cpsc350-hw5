@@ -1,7 +1,10 @@
 #ifndef KVBST_H
 #define KVBST_H
+/*
+  * @name KVBST - class that represents a template class version of a Key-Value Pair Binary Search Tree
+  * @author Tarek El-Hajjaoui & Krishna Narayan
+*/
 #include "KVTreeNode.h"
-
 template<class T>
 class KVBST{
   private:

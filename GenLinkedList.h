@@ -1,5 +1,9 @@
 #ifndef GENLINKEDLIST_H
 #define GENLINKEDLIST_H
+/*
+  * @name GenLinkedList - class that represents a template class version of Single Linked List Data Structure
+  * @author Tarek El-Hajjaoui & Krishna Narayan
+*/
 #include <iostream>
 #include "ListNode.h"
 using namespace std;

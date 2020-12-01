@@ -1,11 +1,11 @@
 #ifndef AFFILIATE_H
 #define AFFILIATE_H
-#include <string>
-using namespace std;
 /*
   * @name Affiliate - abstract class that represents an affiliate of the university
   * @author Tarek El-Hajjaoui & Krishna Narayan
 */
+#include <string>
+using namespace std;
 class Affiliate{
   protected:
     /* FIELDS */

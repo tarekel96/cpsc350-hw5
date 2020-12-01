@@ -1,10 +1,12 @@
-// #include "StudentTable.h"
-// #include "FacultyTable.h"
-
+#ifndef DATABASE_H
+#define DATABASE_H
+/*
+  * @name Database - class that represents a the system database (consisting of students and faculty)
+  * @author Tarek El-Hajjaoui & Krishna Narayan
+*/
 #include "Student.h"
 #include "Faculty.h"
 #include "KVBST.h"
-
 class Database{
   private:
     KVBST<Faculty*> *faculty;
@@ -28,3 +30,4 @@ class Database{
     void rollback();
     void exit();
 };
+#endif
