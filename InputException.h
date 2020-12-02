@@ -3,12 +3,13 @@
 #include <exception>
 #include <iostream>
 using namespace std;
-class InputException: public exception{
-  private:
-    string message;
+class InputException {
   public:
     InputException();
     ~InputException();
     int getIntegerInput();
+    string getStringInput();
+    double getDoubleInput();
+  private:
 };
 #endif

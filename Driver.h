@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include "Database.h"
+#include "InputException.h"
 using namespace std;
 class Driver{
   private:
@@ -11,6 +12,7 @@ class Driver{
     Database* DB;
     ifstream inFile;
     ofstream outFile;
+    InputException IE;
   public:
     Driver();
     Driver(string file);
