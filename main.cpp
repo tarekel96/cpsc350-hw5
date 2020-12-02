@@ -31,22 +31,32 @@ int main(int argc, char ** argv){
   /* at this point, the user inputted file is valid */
   string file = FE->getFileValue();
 
-  Database *db = new Database();
+  Database *db = new Database(file);
 
-  db->addFaculty(22, "rene", "prof", "cs");
-  db->addFaculty(3, "moshier", "prof", "math");
-  db->addFaculty(11, "harrison", "prof", "cs");
-  db->addFaculty(91, "stevens", "prof", "math");
-  db->deleteFaculty(11);
+  db->processFile();
 
-  db->addStudent(31, "krishna", "junior", "avfx/cs", 3.5, 22);
-  db->addStudent(43, "tarek", "junior", "cs", 3.5, 3);
-  db->addStudent(15, "zzzz", "junior", "avfx/cs", 3.5, 22);
+  // db->addFaculty(22, "rene", "prof", "cs");
+  // db->addFaculty(3, "moshier", "prof", "math");
+  // db->addFaculty(11, "harrison", "prof", "cs");
+  // db->addFaculty(91, "stevens", "prof", "math");
+  // db->deleteFaculty(11);
+  //
+  // db->addStudent(31, "krishna", "junior", "avfx/cs", 3.5, 22);
+  // db->addStudent(43, "tarek", "junior", "cs", 3.5, 3);
+  // db->addStudent(15, "zzzz", "junior", "avfx/cs", 3.5, 22);
+  // db->printFacultyAdvisees(22);
   // db->deleteStudent(31);
-
-  db->printFacultyAdvisees(22);
+  // db->deleteFaculty(22);
   db->removeAdvisee(22, 31);
-  db->printFacultyAdvisees(22);
+
+  // db->printFacultyAdvisees(22);
+  // db->removeAdvisee(22, 31);
+  // db->printFacultyAdvisees(22);
+  cout << "------------------------------------------" << endl;
+  db->printFaculty();
+  cout << "------------------------------------------" << endl;
+  db->printStudents();
+  cout << "------------------------------------------" << endl;
   // cout << "-------students-------" << endl;
   // db->printStudents();
   // cout << "-------faculty-------" << endl;
