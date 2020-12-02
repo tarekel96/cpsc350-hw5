@@ -114,19 +114,20 @@ void Database::deleteFaculty(int id){
       // faculty->getNode(id)->printStudentIds();
       cout << "the following student requires a new advisor: " << endl;
       cout << students->getNode(faculty->getNode(id)->getStudentId(0))->toString() << endl;
-      cout << "entire id of new advisor" << endl;
+      cout << "entire id of new advisor: ";
       cin >> newAdvisor;
+      cout << endl;
       if(faculty->searchNode(newAdvisor)){
         changeAdvisor(faculty->getNode(id)->getStudentId(0), newAdvisor);
-        cout << "done" << endl;
+        // cout << "done" << endl;
       }else{
         while(!faculty->searchNode(newAdvisor)){
           cout << "please enter a valid faculty id" << endl;
           cin >> newAdvisor;
         }
         changeAdvisor(faculty->getNode(id)->getStudentId(0), newAdvisor);
-        cout << "done" << endl;
-        cout << endl;
+        // cout << "done" << endl;
+        cout << "" << endl;
       }
       // cout << "count: " << i << endl;
     }
