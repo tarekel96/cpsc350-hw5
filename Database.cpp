@@ -6,11 +6,6 @@ Database::Database(){
   faculty = new KVBST<Faculty*>();
   students = new KVBST<Student*>();
 }
-Database::Database(string f){
-  faculty = new KVBST<Faculty*>();
-  students = new KVBST<Student*>();
-  file = f;
-}
 
 Database::~Database(){
   delete faculty;
@@ -130,41 +125,6 @@ void Database::deleteFaculty(int id){
       }
     }
     faculty->deleteNode(id);
-  }
-}
-
-void Database::processFile(){
-  ifstream myfile (file);
-  string line;
-  if(myfile.is_open()){
-    while(getline(myfile, line)){
-      int id;
-      string name;
-      string level;
-      string department;
-      string major;
-      double gpa;
-      int advisorId;
-      id = stoi(line.substr(5,line.length()));
-      getline(myfile, line);
-      name = line.substr(6, line.length());
-      getline(myfile, line);
-      level = line.substr(7, line.length());
-      getline(myfile, line);
-      if(line.at(0) == 'D'){
-        department = line.substr(12, line.length());
-        addFaculty(id, name, level, department);
-      }else{
-        major = line.substr(7, line.length());
-        getline(myfile, line);
-        gpa = stod(line.substr(5,line.length()));
-        getline(myfile, line);
-        advisorId = stoi(line.substr(13, line.length()));
-        addStudent(id, name, level, major, gpa, advisorId);
-      }
-      getline(myfile, line);
-    }
-    myfile.close();
   }
 }
 bool Database::studentDatabaseIsEmpty(){
