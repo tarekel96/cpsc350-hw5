@@ -23,5 +23,7 @@ class Driver{
     void printStudents();
     void printFaculty();
     int promptChoice();
+    void handleChoice(int choice);
+    int promptIdNumber(bool student);
 };
 #endif

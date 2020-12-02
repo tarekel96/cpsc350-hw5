@@ -11,6 +11,7 @@ Driver::Driver(string file){
   int choice = -1;
   while(choice != 14){
     choice = promptChoice();
+    handleChoice(choice);
   }
 }
 Driver::~Driver(){
@@ -22,6 +23,7 @@ void Driver::setFile(string file){
 void Driver::processFile(){
   inFile.open(m_file);
   string line;
+  cout << "Processing File..." << endl;
   if(inFile.is_open()){
     while(getline(inFile, line)){
       int id;
@@ -52,38 +54,74 @@ void Driver::processFile(){
     }
     inFile.close();
   }
-  cout << "File Successfully Processed. The current Database is: " << endl;
-  printDB();
-  cout << "-----------------------------------------------------------" << endl;
-  cout << "File Successfully Processed. The current Database is above ^" << endl;
+  cout << "File Successfully Processed. The current Database is now populated." << endl;
 }
 void Driver::printDB(){
   if((DB->studentDatabaseIsEmpty()) && (DB->facultyDatabaseIsEmpty())){
     cout << "Database is empty. There are no students or faculty." << endl;
   }
   else {
-    if(DB->studentDatabaseIsEmpty() == false) DB->printStudents();
-    if(DB->facultyDatabaseIsEmpty() == false) DB->printFaculty();
+    printStudents();
+    printFaculty();
   }
+}
+void Driver::printStudents(){
+  if(DB->studentDatabaseIsEmpty() == false) DB->printStudents();
+  else cout << "Message: The database does not contain any students\n";
+}
+void Driver::printFaculty(){
+  if(DB->facultyDatabaseIsEmpty() == false) DB->printFaculty();
+  else cout << "Message: The database does not contain any faculty members\n";
 }
 int Driver::promptChoice(){
   int choice = -1;
   cout << "Please pick from one of the following integer options (1-14): " << endl;
-  cout << "1) View all Students (and their info) from Database" << endl;
-  cout << "2) View all Faculty (and their info) from Database" << endl;
-  cout << "3) Find Student by ID (and display their info) from Database" << endl;
-  cout << "4) Find Faculty by ID (and display their info) from Database" << endl;
-  cout << "5) Given a Student’s ID, print the name and info of their Faculty advisor" << endl;
-  cout << "6) Given a Faculty ID, print ALL the names and info of his/her advisees." << endl;
-  cout << "7) Add a new Student" << endl;
-  cout << "8) Delete a Student by ID" << endl;
-  cout << "9) Add a new Faculty member" << endl;
-  cout << "10) Delete a Faculty member given the ID" << endl;
-  cout << "11) Change a Student's advisor given the Student ID and the new Faculty ID" << endl;
-  cout << "12) Remove an advisee from a Faculty member given the IDs" << endl;
-  cout << "13) Rollback" << endl;
-  cout << "14) Exit" << endl;
+  cout << "1) ************* View all Students (and their info) from Database" << endl;
+  cout << "2) ************* View all Faculty (and their info) from Database" << endl;
+  cout << "3) ************* Find Student by ID (and display their info) from Database" << endl;
+  cout << "4) ************* Find Faculty by ID (and display their info) from Database" << endl;
+  cout << "5) ************* Given a Student’s ID, print the name and info of their Faculty advisor" << endl;
+  cout << "6) ************* Given a Faculty ID, print ALL the names and info of his/her advisees." << endl;
+  cout << "7) ************* Add a new Student" << endl;
+  cout << "8) ************* Delete a Student by ID" << endl;
+  cout << "9) ************* Add a new Faculty member" << endl;
+  cout << "10) ************ Delete a Faculty member given the ID" << endl;
+  cout << "11) ************ Change a Student's advisor given the Student ID and the new Faculty ID" << endl;
+  cout << "12) ************ Remove an advisee from a Faculty member given the IDs" << endl;
+  cout << "13) ************ Rollback" << endl;
+  cout << "14) ************ Exit" << endl;
   // TODO - InputException
   cin >> choice;
   return choice;
+}
+void Driver::handleChoice(int choice){
+  switch (choice) {
+  case 1:
+    printStudents();
+    break;
+  case 2:
+    printFaculty();
+    break;
+  case 3:
+    DB->findStudent(promptIdNumber(true));
+    break;
+  case 4:
+    DB->findFaculty(promptIdNumber(false));
+    break;
+  case 5:
+    cout << "Friday";
+    break;
+  case 6:
+    cout << "Saturday";
+    break;
+  case 7:
+    cout << "Sunday";
+    break;
+  }
+}
+int Driver::promptIdNumber(bool student){
+  int id = -1;
+  student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
+  cin >> id;
+  return id;
 }
