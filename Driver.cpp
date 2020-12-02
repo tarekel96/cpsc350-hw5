@@ -3,6 +3,13 @@
 Driver::Driver(){
   m_file = "";
   DB = new Database();
+  string file = IE.getStringInput();
+  processFile();
+  int choice = -1;
+  while(choice != 14){
+    choice = promptChoice();
+    handleChoice(choice);
+  }
 }
 Driver::Driver(string file){
   m_file = file;
@@ -90,8 +97,7 @@ int Driver::promptChoice(){
   cout << "12) ************ Remove an advisee from a Faculty member given the IDs" << endl;
   cout << "13) ************ Rollback" << endl;
   cout << "14) ************ Exit" << endl;
-  // TODO - InputException
-  cin >> choice;
+  choice = IE.getIntegerInput();
   return choice;
 }
 void Driver::handleChoice(int choice){
@@ -145,7 +151,7 @@ void Driver::handleChoice(int choice){
 int Driver::promptIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
-  cin >> id;
+  id = IE.getIntegerInput();
   return id;
 }
 void Driver::promptNewStudentInfo(){
@@ -153,22 +159,22 @@ void Driver::promptNewStudentInfo(){
   string name, level, major = "";
   double gpa = -1.0;
   cout << "Enter the id number of the student: ";
-  cin >> id;
+  id = IE.getIntegerInput();
   cout << endl;
   cout << "Enter the id number of the student's advisor: ";
-  cin >> advisorId;
+  advisorId = IE.getIntegerInput();
   cout << endl;
   cout << "Enter the name of the student: ";
-  cin >> name;
+  name = IE.getStringInput();
   cout << endl;
   cout << "Enter the level of the student: ";
-  cin >> level;
+  level = IE.getStringInput();
   cout << endl;
   cout << "Enter the major of the student: ";
-  cin >> major;
+  major = IE.getStringInput();
   cout << endl;
   cout << "Enter the gpa of the student: ";
-  cin >> gpa;
+  gpa = IE.getDoubleInput();
   cout << endl;
   DB->addStudent(id, name, level, major, gpa, advisorId);
 }
@@ -177,17 +183,16 @@ void Driver::promptNewFacultyMemberInfo(){
   string name, level, department = "";
   double gpa = -1.0;
   cout << "Enter the id number of the faculty member: ";
-  cin >> id;
+  id = IE.getIntegerInput();
   cout << endl;
   cout << "Enter the name of the faculty member: ";
-  cin >> name;
+  name = IE.getStringInput();
   cout << endl;
   cout << "Enter the level of the faculty member: ";
-  cin >> level;
+  level = IE.getStringInput();
   cout << endl;
   cout << "Enter the department of the faculty member: ";
-  cin >> department;
-  cout << endl;
+  department = IE.getStringInput();
   cout << endl;
   DB->addFaculty(id, name, level, department);
 }
