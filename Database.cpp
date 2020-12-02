@@ -173,3 +173,6 @@ bool Database::studentDatabaseIsEmpty(){
 bool Database::facultyDatabaseIsEmpty(){
   return (faculty->isEmpty());
 }
+void Database::rollback(){
+  // TODO
+}

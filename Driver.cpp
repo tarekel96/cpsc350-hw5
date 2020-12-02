@@ -117,6 +117,29 @@ void Driver::handleChoice(int choice){
   case 7:
     promptNewStudentInfo();
     break;
+  case 8:
+    DB->deleteStudent(promptIdNumber(true));
+    break;
+  case 9:
+    promptNewFacultyMemberInfo();
+    break;
+  case 10:
+    DB->deleteFaculty(promptIdNumber(false));
+    break;
+  case 11:
+    DB->changeAdvisor(promptIdNumber(true), promptIdNumber(false));
+    break;
+  case 12:
+    DB->removeAdvisee(promptIdNumber(false), promptIdNumber(true));
+    break;
+  case 13:
+    DB->rollback();
+    break;
+  case 14:
+    break;
+  default:
+    cout << "ERROR: Input did not match any of the choices. Please follow directions." << endl;
+    break;
   }
 }
 int Driver::promptIdNumber(bool student){
@@ -148,4 +171,23 @@ void Driver::promptNewStudentInfo(){
   cin >> gpa;
   cout << endl;
   DB->addStudent(id, name, level, major, gpa, advisorId);
+}
+void Driver::promptNewFacultyMemberInfo(){
+  int id = -1;
+  string name, level, department = "";
+  double gpa = -1.0;
+  cout << "Enter the id number of the faculty member: ";
+  cin >> id;
+  cout << endl;
+  cout << "Enter the name of the faculty member: ";
+  cin >> name;
+  cout << endl;
+  cout << "Enter the level of the faculty member: ";
+  cin >> level;
+  cout << endl;
+  cout << "Enter the department of the faculty member: ";
+  cin >> department;
+  cout << endl;
+  cout << endl;
+  DB->addFaculty(id, name, level, department);
 }
