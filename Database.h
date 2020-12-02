@@ -14,6 +14,7 @@ class Database{
     string file;
 
   public:
+    Database();
     Database(string f);
     ~Database();
     void printStudents();
@@ -31,5 +32,8 @@ class Database{
     void processFile();
     void rollback();
     void exit();
+
+    bool studentDatabaseIsEmpty();
+    bool facultyDatabaseIsEmpty();
 };
 #endif

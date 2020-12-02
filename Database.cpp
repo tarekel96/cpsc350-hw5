@@ -2,6 +2,10 @@
 #include <fstream>
 #include <string>
 
+Database::Database(){
+  faculty = new KVBST<Faculty*>();
+  students = new KVBST<Student*>();
+}
 Database::Database(string f){
   faculty = new KVBST<Faculty*>();
   students = new KVBST<Student*>();
@@ -59,9 +63,6 @@ void Database::changeAdvisor(int studentId, int facultyId){
 void Database::printFacultyAdvisees(int id){
   //loop through the faculty advisee list and print using findStudent
   if(faculty->searchNode(id)){
-    // cout << "ok" << endl;
-    // cout << faculty->getNode(id)->getListSize() << endl;
-    // cout << students->getNode(faculty->getNode(id)->getStudentId(0))->toString() << endl;
     for(int i = 0; i < faculty->getNode(id)->getListSize(); ++i){
       cout << students->getNode(faculty->getNode(id)->getStudentId(i))->toString() << endl;
     }
@@ -76,13 +77,13 @@ void Database::removeAdvisee(int facultyId, int studentId){
     //remove student id from faculty member list
     faculty->getNode(facultyId)->removeAdvisee(studentId);
     //print ids
-    // faculty->getNode(facultyId)->printStudentIds();
   }else{
     cout << "faculty does not exist" << endl;
   }
 }
 
 void Database::addStudent(int id, string name, string level, string major, double gpa, int advisorId){
+  // TODO - make sure the id entered is not already taken
   if(faculty->searchNode(advisorId)){
     students->insertNode(id, new Student(id, name, level, major, gpa, advisorId));
     faculty->getNode(advisorId)->addAdvisee(id);
@@ -92,8 +93,10 @@ void Database::addStudent(int id, string name, string level, string major, doubl
 }
 
 void Database::deleteStudent(int id){
-  removeAdvisee(students->getNode(id)->getAdvisorId(), id);
-  students->deleteNode(id);
+  if(students->searchNode(id)){
+    removeAdvisee(students->getNode(id)->getAdvisorId(), id);
+    students->deleteNode(id);
+  }
 }
 
 void Database::addFaculty(int id, string name, string level, string department){
@@ -102,10 +105,7 @@ void Database::addFaculty(int id, string name, string level, string department){
 
 void Database::deleteFaculty(int id){
   if(faculty->searchNode(id)){
-    int newAdvisor;
-    // faculty->getNode(id)->printStudentIds();
-    // cout << faculty->getNode(id)->getStudentId(1) << endl;
-    // cout << students->getNode(15)->toString() << endl;
+    int newAdvisor = -1;
     int size = faculty->getNode(id)->getListSize();
     for(int i = 0; i < size; ++i){
       // cout << "count: " << i << endl;
@@ -115,21 +115,19 @@ void Database::deleteFaculty(int id){
       cout << "the following student requires a new advisor: " << endl;
       cout << students->getNode(faculty->getNode(id)->getStudentId(0))->toString() << endl;
       cout << "entire id of new advisor: ";
+      // TODO - add try catch exception
       cin >> newAdvisor;
       cout << endl;
       if(faculty->searchNode(newAdvisor)){
         changeAdvisor(faculty->getNode(id)->getStudentId(0), newAdvisor);
-        // cout << "done" << endl;
       }else{
         while(!faculty->searchNode(newAdvisor)){
           cout << "please enter a valid faculty id" << endl;
           cin >> newAdvisor;
         }
         changeAdvisor(faculty->getNode(id)->getStudentId(0), newAdvisor);
-        // cout << "done" << endl;
         cout << "" << endl;
       }
-      // cout << "count: " << i << endl;
     }
     faculty->deleteNode(id);
   }
@@ -169,12 +167,12 @@ void Database::processFile(){
     myfile.close();
   }
 }
-
-//
-// void Database::rollback(){
-//
-// }
-//
-// void Database::exit(){
-//
-// }
+bool Database::studentDatabaseIsEmpty(){
+  return (students->isEmpty());
+}
+bool Database::facultyDatabaseIsEmpty(){
+  return (faculty->isEmpty());
+}
+void Database::rollback(){
+  // TODO
+}
