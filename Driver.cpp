@@ -3,7 +3,7 @@
 Driver::Driver(){
   m_file = "";
   DB = new Database();
-  string file = IE.getStringInput();
+  setFile(IE.getStringInput());
   processFile();
   int choice = -1;
   while(choice != 14){
