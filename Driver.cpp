@@ -3,7 +3,9 @@
 Driver::Driver(){
   m_file = "";
   DB = new Database();
-  setFile(IE.getStringInput());
+  cout << "Enter the name of input file: ";
+  string file = IE.getStringInput();
+  setFile(file);
   processFile();
   int choice = -1;
   while(choice != 14){
