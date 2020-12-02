@@ -25,5 +25,6 @@ class Driver{
     int promptChoice();
     void handleChoice(int choice);
     int promptIdNumber(bool student);
+    void promptNewStudentInfo();
 };
 #endif

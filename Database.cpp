@@ -83,6 +83,7 @@ void Database::removeAdvisee(int facultyId, int studentId){
 }
 
 void Database::addStudent(int id, string name, string level, string major, double gpa, int advisorId){
+  // TODO - make sure the id entered is not already taken
   if(faculty->searchNode(advisorId)){
     students->insertNode(id, new Student(id, name, level, major, gpa, advisorId));
     faculty->getNode(advisorId)->addAdvisee(id);

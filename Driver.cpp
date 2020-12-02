@@ -109,13 +109,13 @@ void Driver::handleChoice(int choice){
     DB->findFaculty(promptIdNumber(false));
     break;
   case 5:
-    cout << "Friday";
+    DB->printStudentAdvisor(promptIdNumber(true));
     break;
   case 6:
-    cout << "Saturday";
+    DB->printFacultyAdvisees(promptIdNumber(false));
     break;
   case 7:
-    cout << "Sunday";
+    promptNewStudentInfo();
     break;
   }
 }
@@ -124,4 +124,28 @@ int Driver::promptIdNumber(bool student){
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
   cin >> id;
   return id;
+}
+void Driver::promptNewStudentInfo(){
+  int id, advisorId = -1;
+  string name, level, major = "";
+  double gpa = -1.0;
+  cout << "Enter the id number of the student: ";
+  cin >> id;
+  cout << endl;
+  cout << "Enter the id number of the student's advisor: ";
+  cin >> advisorId;
+  cout << endl;
+  cout << "Enter the name of the student: ";
+  cin >> name;
+  cout << endl;
+  cout << "Enter the level of the student: ";
+  cin >> level;
+  cout << endl;
+  cout << "Enter the major of the student: ";
+  cin >> major;
+  cout << endl;
+  cout << "Enter the gpa of the student: ";
+  cin >> gpa;
+  cout << endl;
+  DB->addStudent(id, name, level, major, gpa, advisorId);
 }
