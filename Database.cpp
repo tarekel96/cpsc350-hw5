@@ -73,8 +73,10 @@ void Database::printFacultyAdvisees(int id){
 //
 void Database::removeAdvisee(int facultyId, int studentId){
   if(faculty->searchNode(facultyId)){
+    //remove student id from faculty member list
     faculty->getNode(facultyId)->removeAdvisee(studentId);
-    faculty->getNode(facultyId)->printStudentIds();
+    //print ids
+    // faculty->getNode(facultyId)->printStudentIds();
   }else{
     cout << "faculty does not exist" << endl;
   }
@@ -111,19 +113,20 @@ void Database::deleteFaculty(int id){
       // cout << faculty->getNode(id)->getStudentId(i) << endl;
       // faculty->getNode(id)->printStudentIds();
       cout << "the following student requires a new advisor: " << endl;
-      cout << students->getNode(faculty->getNode(id)->getStudentId(i))->toString() << endl;
+      cout << students->getNode(faculty->getNode(id)->getStudentId(0))->toString() << endl;
       cout << "entire id of new advisor" << endl;
       cin >> newAdvisor;
       if(faculty->searchNode(newAdvisor)){
-        changeAdvisor(faculty->getNode(id)->getStudentId(i), newAdvisor);
+        changeAdvisor(faculty->getNode(id)->getStudentId(0), newAdvisor);
         cout << "done" << endl;
       }else{
         while(!faculty->searchNode(newAdvisor)){
           cout << "please enter a valid faculty id" << endl;
           cin >> newAdvisor;
         }
-        changeAdvisor(faculty->getNode(id)->getStudentId(i), newAdvisor);
+        changeAdvisor(faculty->getNode(id)->getStudentId(0), newAdvisor);
         cout << "done" << endl;
+        cout << endl;
       }
       // cout << "count: " << i << endl;
     }
