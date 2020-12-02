@@ -46,7 +46,7 @@ template<class T>
 void KVBST<T>::recPrint(KVTreeNode<T>* node, bool toString){
   if(node != NULL){
     recPrint(node->left, toString);
-    if(toString) cout << node->value->toString() << ", ";
+    if(toString) cout << node->value->toString() << endl;
     else cout << node->value << ", ";
     recPrint(node->right, toString);
   }

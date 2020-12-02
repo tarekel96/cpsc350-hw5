@@ -11,9 +11,10 @@ class Database{
   private:
     KVBST<Faculty*> *faculty;
     KVBST<Student*> *students;
+    string file;
 
   public:
-    Database();
+    Database(string f);
     ~Database();
     void printStudents();
     void printFaculty();
@@ -27,6 +28,7 @@ class Database{
     void deleteFaculty(int id);
     void changeAdvisor(int studentId, int facultyId);
     void removeAdvisee(int facultyId, int studentId);
+    void processFile();
     void rollback();
     void exit();
 };
