@@ -46,14 +46,18 @@ int main(int argc, char ** argv){
   // db->addStudent(15, "zzzz", "junior", "avfx/cs", 3.5, 22);
   // db->printFacultyAdvisees(22);
   // db->deleteStudent(31);
-  // db->deleteFaculty(22);
-  db->removeAdvisee(22, 31);
+  db->deleteFaculty(22);
+  // db->printFacultyAdvisees(22);
+  // db->removeAdvisee(22, 31);
+  // cout << "------------------------------------------" << endl;
+  // db->printFacultyAdvisees(22);
+  // cout << "------------------------------------------" << endl;
 
   // db->printFacultyAdvisees(22);
   // db->removeAdvisee(22, 31);
   // db->printFacultyAdvisees(22);
-  cout << "------------------------------------------" << endl;
-  db->printFaculty();
+  // cout << "------------------------------------------" << endl;
+  // db->printFaculty();
   cout << "------------------------------------------" << endl;
   db->printStudents();
   cout << "------------------------------------------" << endl;

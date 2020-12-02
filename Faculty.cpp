@@ -48,5 +48,9 @@ void Faculty::addAdvisee(int id){
 }
 void Faculty::removeAdvisee(int id){
   int pos = m_StudentIds->find(id);
-  m_StudentIds->deletePos(pos);
+  if(pos == 0){
+    m_StudentIds->removeFront();
+  }else{
+    m_StudentIds->deletePos(pos);
+  }
 }
