@@ -26,7 +26,8 @@ class Driver{
     void printFaculty();
     int promptChoice();
     void handleChoice(int choice);
-    int promptIdNumber(bool student);
+    int promptNewIdNumber(bool student); // use for creating a new student/faculty (asks for id)
+    int promptValidIdNumber(bool student); // use for finding a valid (existing) student/faculty
     void promptNewStudentInfo();
     void promptNewFacultyMemberInfo();
 };

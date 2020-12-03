@@ -40,12 +40,17 @@ void Database::printStudentAdvisor(int id){
   int advisorId = students->getNode(id)->getAdvisorId();
   findFaculty(advisorId);
 }
-
+// changes the advisor of the given id student to the provided the faculty member id
 void Database::changeAdvisor(int studentId, int facultyId){
+  // check student exists
   if(students->searchNode(studentId)){
+    // check faculty exists
     if(faculty->searchNode(facultyId)){
+      // deletes the student id from list of student IDs
       removeAdvisee(students->getNode(studentId)->getAdvisorId(), studentId);
+      // find the new advisor and add the student to their list of student IDs
       faculty->getNode(facultyId)->addAdvisee(studentId);
+      // update advisor field for the Student instance
       students->getNode(studentId)->setAdvisorId(facultyId);
     }else{
       cout << "faculty does not exist" << endl;
@@ -68,15 +73,77 @@ void Database::printFacultyAdvisees(int id){
 
 //
 void Database::removeAdvisee(int facultyId, int studentId){
+  bool facultyHasStudent = faculty->getNode(facultyId)->hasAdvisee(studentId);
+  if(facultyHasStudent == false){
+        cerr << "ERROR: Faculty ID#: " << to_string(facultyId) << " does not have the student ID#: " << to_string(studentId) << endl;
+        cout << "Please enter a valid student ID to remove from Faculty Member ID# " << to_string(facultyId) << ": ";
+  }
+  while(facultyHasStudent == false){
+    studentId = promptValidIdNumber(true);
+    facultyHasStudent = faculty->getNode(facultyId)->hasAdvisee(studentId);
+    if(facultyHasStudent == false){
+      cerr << "ERROR: Faculty ID#: " << to_string(facultyId) << " does not have the student ID#: " << to_string(studentId) << endl;
+      cout << "Please enter a valid student ID to remove from Faculty Member ID# " << to_string(facultyId) << endl;
+    }
+    else break;
+  }
   if(faculty->searchNode(facultyId)){
-    //remove student id from faculty member list
+    //remove student id from faculty member list  - deletes the student id from list of student IDs
     faculty->getNode(facultyId)->removeAdvisee(studentId);
-    //print ids
+    // remove faculty member from student from advisor field
+    //changeAdvisor(studentId, facultyId);
+    replaceAdvisor(facultyId, studentId);
   }else{
     cout << "faculty does not exist" << endl;
   }
 }
-
+void Database::replaceAdvisor(int facultyId, int studentId){
+  bool newIdValid = false;
+  int newFacultyId = -1;
+  cout << "Student ID#: " << to_string(studentId) << " needs a new advisor..." << endl;
+  while(newIdValid == false){
+    newFacultyId = promptValidIdNumber(false);
+    if(newFacultyId == facultyId){
+      cout << "ERROR: Advisor cannot be the same previous advisor id: " << to_string(facultyId) << endl;
+    }
+    // else if(faculty->searchNode(newFacultyId) == false){
+    //   cout << "ERROR: You entered an invalid advisor id. Advisor does not exist." << endl;
+    // }
+    else{
+      newIdValid = true;
+      break;
+    }
+  }
+  // assign advisor id to advisor field of the student
+  students->getNode(studentId)->setAdvisorId(newFacultyId);
+}
+int Database::promptIdNumber(bool student){
+  int id = -1;
+  student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
+  id = IE.getIntegerInput();
+  return id;
+}
+int Database::promptValidIdNumber(bool student){
+  int id = -1;
+  student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
+  while(true){
+    id = IE.getIntegerInput();
+    if(student){
+      if(students->searchNode(id) == false) {
+        cerr << "ERROR: Invalid ID, student does not exist." << endl;
+        continue;
+      }
+    }
+    else{
+      if(faculty->searchNode(id) == false) {
+        cerr << "ERROR: Invalid ID, faculty member does not exist." << endl;
+        continue;
+      }
+    }
+    break;
+  }
+  return id;
+}
 void Database::addStudent(int id, string name, string level, string major, double gpa, int advisorId){
   // TODO - make sure the id entered is not already taken
   if(faculty->searchNode(advisorId)){

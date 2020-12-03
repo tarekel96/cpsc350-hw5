@@ -111,34 +111,34 @@ void Driver::handleChoice(int choice){
     printFaculty();
     break;
   case 3:
-    DB->findStudent(promptIdNumber(true));
+    DB->findStudent(promptValidIdNumber(true));
     break;
   case 4:
-    DB->findFaculty(promptIdNumber(false));
+    DB->findFaculty(promptValidIdNumber(false));
     break;
   case 5:
-    DB->printStudentAdvisor(promptIdNumber(true));
+    DB->printStudentAdvisor(promptValidIdNumber(true));
     break;
   case 6:
-    DB->printFacultyAdvisees(promptIdNumber(false));
+    DB->printFacultyAdvisees(promptValidIdNumber(false));
     break;
   case 7:
     promptNewStudentInfo();
     break;
   case 8:
-    DB->deleteStudent(promptIdNumber(true));
+    DB->deleteStudent(promptValidIdNumber(true));
     break;
   case 9:
     promptNewFacultyMemberInfo();
     break;
   case 10:
-    DB->deleteFaculty(promptIdNumber(false));
+    DB->deleteFaculty(promptValidIdNumber(false));
     break;
   case 11:
-    DB->changeAdvisor(promptIdNumber(true), promptIdNumber(false));
+    DB->changeAdvisor(promptValidIdNumber(true), promptValidIdNumber(false));
     break;
   case 12:
-    DB->removeAdvisee(promptIdNumber(false), promptIdNumber(true));
+    DB->removeAdvisee(DB->promptValidIdNumber(false), DB->promptValidIdNumber(true));
     break;
   case 13:
     DB->rollback();
@@ -150,21 +150,59 @@ void Driver::handleChoice(int choice){
     break;
   }
 }
-int Driver::promptIdNumber(bool student){
+int Driver::promptNewIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
-  id = IE.getIntegerInput();
+  while(true){
+    id = IE.getIntegerInput();
+    if(student){
+      if(DB->students->searchNode(id) == true){
+        cerr << "ERROR: Invalid ID. ID#: " << to_string(id) << " is already taken\nPlease enter a unique ID." << endl;
+        continue;
+      }
+    }
+    else{
+      if(DB->faculty->searchNode(id) == true){
+        cerr << "ERROR: Invalid ID. ID#: " << to_string(id) << " is already taken\nPlease enter a unique ID." << endl;
+        continue;
+      }
+    }
+    break;
+  }
+  return id;
+}
+int Driver::promptValidIdNumber(bool student){
+  int id = -1;
+  student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
+  while(true){
+    id = IE.getIntegerInput();
+    if(student){
+      if(DB->students->searchNode(id) == false) {
+        cerr << "ERROR: Invalid ID, student does not exist." << endl;
+        continue;
+      }
+    }
+    else{
+      if(DB->faculty->searchNode(id) == false) {
+        cerr << "ERROR: Invalid ID, faculty member does not exist." << endl;
+        continue;
+      }
+    }
+    break;
+  }
   return id;
 }
 void Driver::promptNewStudentInfo(){
   int id, advisorId = -1;
   string name, level, major = "";
   double gpa = -1.0;
-  cout << "Enter the id number of the student: ";
-  id = IE.getIntegerInput();
+  //cout << "Enter a new (not taken) ID# for the new student: ";
+  cout << "New student needs a unique id number. ";
+  id = promptNewIdNumber(true);
   cout << endl;
-  cout << "Enter the id number of the student's advisor: ";
-  advisorId = IE.getIntegerInput();
+  //cout << "Enter a valid (advisor exists) Advisor ID# for the new student: ";
+  cout << "New student needs a valid advisor id number. ";
+  advisorId = promptValidIdNumber(false);
   cout << endl;
   cout << "Enter the name of the student: ";
   name = IE.getStringInput();

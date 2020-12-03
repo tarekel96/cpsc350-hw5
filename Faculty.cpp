@@ -54,3 +54,6 @@ void Faculty::removeAdvisee(int id){
     m_StudentIds->deletePos(pos);
   }
 }
+bool Faculty::hasAdvisee(int id){
+  return (m_StudentIds->find(id) != -1);
+}
