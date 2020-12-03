@@ -92,8 +92,10 @@ void Database::addStudent(int id, string name, string level, string major, doubl
 }
 
 void Database::deleteStudent(int id){
-  removeAdvisee(students->getNode(id)->getAdvisorId(), id);
-  students->deleteNode(id);
+  if(students->searchNode(id)){
+    removeAdvisee(students->getNode(id)->getAdvisorId(), id);
+    students->deleteNode(id);
+  }
 }
 
 void Database::addFaculty(int id, string name, string level, string department){
@@ -169,6 +171,8 @@ void Database::processFile(){
     myfile.close();
   }
 }
+
+
 
 //
 // void Database::rollback(){
