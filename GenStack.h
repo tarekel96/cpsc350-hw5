@@ -31,6 +31,11 @@ class GenStack{
       myArray = new T[maxSize];
       top = -1;
     }
+    GenStack(const GenStack<T> &S){
+      myArray = S.myArray;
+      top = S.top;
+      maxSize = S.maxSize;
+    }
 
     //destruct stack by deleting root array
     ~GenStack(){

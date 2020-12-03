@@ -30,5 +30,6 @@ class Faculty: public Affiliate{
     int getStudentId(int pos);
     void addAdvisee(int id);
     void removeAdvisee(int id);
+    bool hasAdvisee(int id);
 };
 #endif

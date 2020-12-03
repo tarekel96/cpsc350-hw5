@@ -4,15 +4,17 @@
   * @name Database - class that represents a the system database (consisting of students and faculty)
   * @author Tarek El-Hajjaoui & Krishna Narayan
 */
+#include <string>
 #include "Student.h"
 #include "Faculty.h"
 #include "KVBST.h"
+#include "InputException.h"
 class Database{
   private:
+    InputException IE;
+  public:
     KVBST<Faculty*> *faculty;
     KVBST<Student*> *students;
-
-  public:
     Database();
     ~Database();
     void printStudents();
@@ -27,6 +29,9 @@ class Database{
     void deleteFaculty(int id);
     void changeAdvisor(int studentId, int facultyId);
     void removeAdvisee(int facultyId, int studentId);
+    void replaceAdvisor(int facultyId, int studentId);
+    int promptIdNumber(bool student);
+    int promptValidIdNumber(bool student);
     void rollback();
     void exit();
 
