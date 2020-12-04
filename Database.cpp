@@ -98,21 +98,14 @@ void Database::removeAdvisee(int facultyId, int studentId){
   }
 }
 void Database::replaceAdvisor(int facultyId, int studentId){
-  bool newIdValid = false;
   int newFacultyId = -1;
   cout << "Student ID#: " << to_string(studentId) << " needs a new advisor..." << endl;
-  while(newIdValid == false){
+  while(true){
     newFacultyId = promptValidIdNumber(false);
     if(newFacultyId == facultyId){
       cout << "ERROR: Advisor cannot be the same previous advisor id: " << to_string(facultyId) << endl;
     }
-    // else if(faculty->searchNode(newFacultyId) == false){
-    //   cout << "ERROR: You entered an invalid advisor id. Advisor does not exist." << endl;
-    // }
-    else{
-      newIdValid = true;
-      break;
-    }
+    else break;
   }
   // assign advisor id to advisor field of the student
   students->getNode(studentId)->setAdvisorId(newFacultyId);
@@ -120,14 +113,14 @@ void Database::replaceAdvisor(int facultyId, int studentId){
 int Database::promptIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
-  id = IE.getIntegerInput();
+  id = IE.getIntegerInput(1);
   return id;
 }
 int Database::promptValidIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
   while(true){
-    id = IE.getIntegerInput();
+    id = IE.getIntegerInput(1);
     if(student){
       if(students->searchNode(id) == false) {
         cerr << "ERROR: Invalid ID, student does not exist." << endl;

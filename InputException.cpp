@@ -5,6 +5,21 @@ InputException::~InputException(){}
 int InputException::getIntegerInput(){
   int response = -1;
   while(true){
+    cin >> response;
+    if(cin.fail()){
+      cerr << "ERROR: INVALID INPUT - PLEASE FOLLOW DIRECTIONS" << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+      continue;
+    }
+    break;
+  }
+  return response;
+}
+int InputException::getIntegerInput(int min){
+  int response = -1;
+  while(true){
+    cin >> response;
     if(cin.fail()){
       cerr << "ERROR: INVALID INPUT - PLEASE FOLLOW DIRECTIONS" << endl;
       cin.clear();
@@ -12,7 +27,10 @@ int InputException::getIntegerInput(){
       continue;
     }
     else{
-      cin >> response;
+      if(response < min){
+        cerr << "ERROR: INVALID INPUT, INPUT MUST BE GREATER THAN OR EQUAL TO " << to_string(min) << endl;
+        continue;
+      }
       break;
     }
   }
@@ -21,22 +39,35 @@ int InputException::getIntegerInput(){
 string InputException::getStringInput(){
   string response = "";
   while(true){
+    cin >> response;
     if(cin.fail()){
       cerr << "ERROR: INVALID INPUT - PLEASE FOLLOW DIRECTIONS" << endl;
       cin.clear();
       cin.ignore(10000,'\n');
       continue;
     }
-     else{
-       cin >> response;
-       break;
-    }
+     break;
   }
   return response;
 }
 double InputException::getDoubleInput(){
   double response = -1.0;
   while(true){
+    cin >> response;
+    if(cin.fail()){
+      cerr << "ERROR: INVALID INPUT - PLEASE FOLLOW DIRECTIONS" << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+      continue;
+    }
+    break;
+  }
+  return response;
+}
+double InputException::getDoubleInput(double min, double max){
+  double response = -1.0;
+  while(true){
+    cin >> response;
     if(cin.fail()){
       cerr << "ERROR: INVALID INPUT - PLEASE FOLLOW DIRECTIONS" << endl;
       cin.clear();
@@ -44,7 +75,14 @@ double InputException::getDoubleInput(){
       continue;
     }
     else{
-      cin >> response;
+      if(response < min){
+        cerr << "ERROR: INVALID INPUT, INPUT MUST BE GREATER THAN OR EQUAL TO " << to_string(min) << endl;
+        continue;
+      }
+      else if(response > max){
+        cerr << "ERROR: INVALID INPUT, INPUT MUST BE LESS THAN OR EQUAL TO " << to_string(max) << endl;
+        continue;
+      }
       break;
     }
   }

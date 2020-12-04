@@ -99,7 +99,7 @@ int Driver::promptChoice(){
   cout << "12) ************ Remove an advisee from a Faculty member given the IDs" << endl;
   cout << "13) ************ Rollback" << endl;
   cout << "14) ************ Exit" << endl;
-  choice = IE.getIntegerInput();
+  choice = IE.getIntegerInput(1);
   return choice;
 }
 void Driver::handleChoice(int choice){
@@ -154,7 +154,7 @@ int Driver::promptNewIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
   while(true){
-    id = IE.getIntegerInput();
+    id = IE.getIntegerInput(1);
     if(student){
       if(DB->students->searchNode(id) == true){
         cerr << "ERROR: Invalid ID. ID#: " << to_string(id) << " is already taken\nPlease enter a unique ID." << endl;
@@ -175,7 +175,7 @@ int Driver::promptValidIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
   while(true){
-    id = IE.getIntegerInput();
+    id = IE.getIntegerInput(1);
     if(student){
       if(DB->students->searchNode(id) == false) {
         cerr << "ERROR: Invalid ID, student does not exist." << endl;
@@ -196,11 +196,9 @@ void Driver::promptNewStudentInfo(){
   int id, advisorId = -1;
   string name, level, major = "";
   double gpa = -1.0;
-  //cout << "Enter a new (not taken) ID# for the new student: ";
   cout << "New student needs a unique id number. ";
   id = promptNewIdNumber(true);
   cout << endl;
-  //cout << "Enter a valid (advisor exists) Advisor ID# for the new student: ";
   cout << "New student needs a valid advisor id number. ";
   advisorId = promptValidIdNumber(false);
   cout << endl;
@@ -214,7 +212,7 @@ void Driver::promptNewStudentInfo(){
   major = IE.getStringInput();
   cout << endl;
   cout << "Enter the gpa of the student: ";
-  gpa = IE.getDoubleInput();
+  gpa = IE.getDoubleInput(0.0, 4.0);
   cout << endl;
   DB->addStudent(id, name, level, major, gpa, advisorId);
 }
@@ -222,8 +220,8 @@ void Driver::promptNewFacultyMemberInfo(){
   int id = -1;
   string name, level, department = "";
   double gpa = -1.0;
-  cout << "Enter the id number of the faculty member: ";
-  id = IE.getIntegerInput();
+  cout << "New faculty member needs a unique id number. ";
+  id = promptNewIdNumber(false);
   cout << endl;
   cout << "Enter the name of the faculty member: ";
   name = IE.getStringInput();
