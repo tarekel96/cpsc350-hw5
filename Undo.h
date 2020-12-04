@@ -5,17 +5,18 @@
 #include "Affiliate.h"
 #include "GenStack.h"
 using namespace std;
-
+enum class ObjectType {STUDENT, FACULTY, BOTH, UNASSIGNED};
 class Undo{
   private:
     GenStack<Action*>* UndoStack;
-    GenStack<Type>* TypeStack;
+    GenStack<ObjectType>* ObjectTypeStack;
   public:
     Undo();
     ~Undo();
 
-    void addAction(Action* affiliate);
+    void addAction(Action* affiliate, ObjectType objectType);
     const Action* getLastAction();
     void viewLastAction();
+    string toStringObjectType(ObjectType objectType);
 };
 #endif
