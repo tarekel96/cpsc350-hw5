@@ -196,11 +196,9 @@ void Driver::promptNewStudentInfo(){
   int id, advisorId = -1;
   string name, level, major = "";
   double gpa = -1.0;
-  //cout << "Enter a new (not taken) ID# for the new student: ";
   cout << "New student needs a unique id number. ";
   id = promptNewIdNumber(true);
   cout << endl;
-  //cout << "Enter a valid (advisor exists) Advisor ID# for the new student: ";
   cout << "New student needs a valid advisor id number. ";
   advisorId = promptValidIdNumber(false);
   cout << endl;
@@ -214,7 +212,7 @@ void Driver::promptNewStudentInfo(){
   major = IE.getStringInput();
   cout << endl;
   cout << "Enter the gpa of the student: ";
-  gpa = IE.getDoubleInput();
+  gpa = IE.getDoubleInput(0.0, 4.0);
   cout << endl;
   DB->addStudent(id, name, level, major, gpa, advisorId);
 }
@@ -222,8 +220,8 @@ void Driver::promptNewFacultyMemberInfo(){
   int id = -1;
   string name, level, department = "";
   double gpa = -1.0;
-  cout << "Enter the id number of the faculty member: ";
-  id = IE.getIntegerInput();
+  cout << "New faculty member needs a unique id number. ";
+  id = promptNewIdNumber(false);
   cout << endl;
   cout << "Enter the name of the faculty member: ";
   name = IE.getStringInput();

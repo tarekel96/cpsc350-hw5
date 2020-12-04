@@ -10,6 +10,7 @@ class InputException {
     int getIntegerInput();
     string getStringInput();
     double getDoubleInput();
+    double getDoubleInput(double min, double max);
   private:
 };
 #endif
