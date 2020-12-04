@@ -1,13 +1,16 @@
 #include <iostream>
-#include "Database.h"
 #include "KVBST.h"
 #include "FileError.h"
 #include "Driver.h"
+#include "Undo.h"
+#include "Action.h"
+#include "Student.h"
+#include "Faculty.h"
+#include "Affiliate.h"
 using namespace std;
 
 int main(int argc, char ** argv){
-
-
+  
   FileError* FE; /* used to check file input */
   if(argc > 1){  /* if console argument provided */
     FE = new FileError(argv[1]);
@@ -35,20 +38,6 @@ int main(int argc, char ** argv){
   Driver* driver = new Driver(file);
 
   delete driver;
-  // Database *db = new Database(file);
-  //
-  // db->processFile();
-  //
-  // db->printFacultyAdvisees(3);
-  // db->deleteFaculty(22);
-  // cout << "------------------------------------------" << endl;
-  // db->printFacultyAdvisees(3);
-  // cout << "------------------------------------------" << endl;
-  // db->printFacultyAdvisees(91);
-  // db->deleteStudent(44);
-  // cout << "------------------------------------------" << endl;
-  // db->printFacultyAdvisees(91);
-  // delete db;
 
   return 0;
 }

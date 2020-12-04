@@ -5,13 +5,16 @@
   * @author Tarek El-Hajjaoui & Krishna Narayan
 */
 #include <string>
+#include "Undo.h"
 #include "Student.h"
 #include "Faculty.h"
 #include "KVBST.h"
 #include "InputException.h"
+#include "Action.h"
 class Database{
   private:
     InputException IE;
+    Undo* undo;
   public:
     KVBST<Faculty*> *faculty;
     KVBST<Student*> *students;
