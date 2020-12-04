@@ -99,7 +99,7 @@ int Driver::promptChoice(){
   cout << "12) ************ Remove an advisee from a Faculty member given the IDs" << endl;
   cout << "13) ************ Rollback" << endl;
   cout << "14) ************ Exit" << endl;
-  choice = IE.getIntegerInput();
+  choice = IE.getIntegerInput(1);
   return choice;
 }
 void Driver::handleChoice(int choice){
@@ -154,7 +154,7 @@ int Driver::promptNewIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
   while(true){
-    id = IE.getIntegerInput();
+    id = IE.getIntegerInput(1);
     if(student){
       if(DB->students->searchNode(id) == true){
         cerr << "ERROR: Invalid ID. ID#: " << to_string(id) << " is already taken\nPlease enter a unique ID." << endl;
@@ -175,7 +175,7 @@ int Driver::promptValidIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
   while(true){
-    id = IE.getIntegerInput();
+    id = IE.getIntegerInput(1);
     if(student){
       if(DB->students->searchNode(id) == false) {
         cerr << "ERROR: Invalid ID, student does not exist." << endl;

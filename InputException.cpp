@@ -16,6 +16,26 @@ int InputException::getIntegerInput(){
   }
   return response;
 }
+int InputException::getIntegerInput(int min){
+  int response = -1;
+  while(true){
+    cin >> response;
+    if(cin.fail()){
+      cerr << "ERROR: INVALID INPUT - PLEASE FOLLOW DIRECTIONS" << endl;
+      cin.clear();
+      cin.ignore(10000,'\n');
+      continue;
+    }
+    else{
+      if(response < min){
+        cerr << "ERROR: INVALID INPUT, INPUT MUST BE GREATER THAN OR EQUAL TO " << to_string(min) << endl;
+        continue;
+      }
+      break;
+    }
+  }
+  return response;
+}
 string InputException::getStringInput(){
   string response = "";
   while(true){

@@ -8,6 +8,7 @@ class InputException {
     InputException();
     ~InputException();
     int getIntegerInput();
+    int getIntegerInput(int min);
     string getStringInput();
     double getDoubleInput();
     double getDoubleInput(double min, double max);

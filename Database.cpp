@@ -113,14 +113,14 @@ void Database::replaceAdvisor(int facultyId, int studentId){
 int Database::promptIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
-  id = IE.getIntegerInput();
+  id = IE.getIntegerInput(1);
   return id;
 }
 int Database::promptValidIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
   while(true){
-    id = IE.getIntegerInput();
+    id = IE.getIntegerInput(1);
     if(student){
       if(students->searchNode(id) == false) {
         cerr << "ERROR: Invalid ID, student does not exist." << endl;
