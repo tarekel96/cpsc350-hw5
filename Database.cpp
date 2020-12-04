@@ -5,11 +5,13 @@
 Database::Database(){
   faculty = new KVBST<Faculty*>();
   students = new KVBST<Student*>();
+  undo = new Undo();
 }
 
 Database::~Database(){
   delete faculty;
   delete students;
+  delete undo;
 }
 
 void Database::printStudents(){
@@ -138,10 +140,13 @@ int Database::promptValidIdNumber(bool student){
   return id;
 }
 void Database::addStudent(int id, string name, string level, string major, double gpa, int advisorId){
-  // TODO - make sure the id entered is not already taken
   if(faculty->searchNode(advisorId)){
-    students->insertNode(id, new Student(id, name, level, major, gpa, advisorId));
+    Student* newStudent = new Student(id, name, level, major, gpa, advisorId);
+    students->insertNode(id, newStudent);
     faculty->getNode(advisorId)->addAdvisee(id);
+    // add new action to undo stack
+    Action* newAction = new Action(newStudent, Type::CREATE);
+    undo->addAction(newAction);
   }else{
     cout << "the student could not be entered into the system because of an invalid faculty advisor id" << endl;
   }
@@ -155,7 +160,11 @@ void Database::deleteStudent(int id){
 }
 
 void Database::addFaculty(int id, string name, string level, string department){
-  faculty->insertNode(id, new Faculty(id, name, level, department));
+  Faculty* newFaculty = new Faculty(id, name, level, department);
+  faculty->insertNode(id, newFaculty);
+  // add new action to undo stack
+  Action* newAction = new Action(newFaculty, Type::CREATE);
+  undo->addAction(newAction);
 }
 
 void Database::deleteFaculty(int id){
@@ -195,4 +204,5 @@ bool Database::facultyDatabaseIsEmpty(){
 }
 void Database::rollback(){
   // TODO
+  undo->viewLastAction();
 }

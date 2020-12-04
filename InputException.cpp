@@ -12,6 +12,8 @@ int InputException::getIntegerInput(){
       cin.ignore(10000,'\n');
       continue;
     }
+    cin.clear();
+    cin.ignore(10000,'\n'); 
     break;
   }
   return response;
@@ -31,6 +33,8 @@ int InputException::getIntegerInput(int min){
         cerr << "ERROR: INVALID INPUT, INPUT MUST BE GREATER THAN OR EQUAL TO " << to_string(min) << endl;
         continue;
       }
+      cin.clear();
+      cin.ignore(10000,'\n');
       break;
     }
   }
@@ -46,7 +50,9 @@ string InputException::getStringInput(){
       cin.ignore(10000,'\n');
       continue;
     }
-     break;
+    cin.clear();
+    cin.ignore(10000,'\n');
+    break;
   }
   return response;
 }
@@ -60,6 +66,8 @@ double InputException::getDoubleInput(){
       cin.ignore(10000,'\n');
       continue;
     }
+    cin.clear();
+    cin.ignore(10000,'\n');
     break;
   }
   return response;
@@ -83,6 +91,8 @@ double InputException::getDoubleInput(double min, double max){
         cerr << "ERROR: INVALID INPUT, INPUT MUST BE LESS THAN OR EQUAL TO " << to_string(max) << endl;
         continue;
       }
+      cin.clear();
+      cin.ignore(10000,'\n');
       break;
     }
   }
