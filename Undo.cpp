@@ -2,15 +2,15 @@
 
 Undo::Undo(){
   UndoStack = new GenStack<Action*>(5);
-  TypeStack = new GenStack<Type>(5);
+  ObjectTypeStack = new GenStack<ObjectType>(5);
 }
 Undo::~Undo(){
-  if(UndoStack != NULL) delete UndoStack;
-  if(TypeStack != NULL) delete TypeStack;
+  delete UndoStack;
+  delete ObjectTypeStack;
 }
-void Undo::addAction(Action* action){
+void Undo::addAction(Action* action, ObjectType objectType){
   UndoStack->push(action);
-  TypeStack->push(action->getType());
+  ObjectTypeStack->push(objectType);
 }
 const Action* Undo::getLastAction(){
   if(UndoStack->isEmpty() == false){
@@ -20,6 +20,27 @@ const Action* Undo::getLastAction(){
 void Undo::viewLastAction(){
   if(UndoStack->isEmpty()) cerr << "ERROR: Undo Stack is empty." << endl;
   else{
+    cout << "Object Type: " << toStringObjectType(ObjectTypeStack->peek()) << endl;
     cout << UndoStack->peek()->toString();
   }
+}
+string Undo::toStringObjectType(ObjectType objectType){
+  string ret = "";
+
+  switch (objectType) {
+    case ObjectType::STUDENT:
+      ret = "STUDENT";
+      break;
+    case ObjectType::FACULTY:
+      ret = "FACULTY";
+      break;
+    case ObjectType::BOTH:
+      ret = "BOTH";
+      break;
+    default:
+      ret = "UNASSIGNED";
+      break;
+  }
+
+  return ret;
 }

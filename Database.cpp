@@ -146,7 +146,7 @@ void Database::addStudent(int id, string name, string level, string major, doubl
     faculty->getNode(advisorId)->addAdvisee(id);
     // add new action to undo stack
     Action* newAction = new Action(newStudent, Type::CREATE);
-    undo->addAction(newAction);
+    undo->addAction(newAction, ObjectType::STUDENT);
   }else{
     cout << "the student could not be entered into the system because of an invalid faculty advisor id" << endl;
   }
@@ -164,7 +164,7 @@ void Database::addFaculty(int id, string name, string level, string department){
   faculty->insertNode(id, newFaculty);
   // add new action to undo stack
   Action* newAction = new Action(newFaculty, Type::CREATE);
-  undo->addAction(newAction);
+  undo->addAction(newAction, ObjectType::FACULTY);
 }
 
 void Database::deleteFaculty(int id){
@@ -205,4 +205,7 @@ bool Database::facultyDatabaseIsEmpty(){
 void Database::rollback(){
   // TODO
   undo->viewLastAction();
+  // Action* lastAction = undo->getLastAction();
+  // Type type = lastAction->getType();
+
 }
