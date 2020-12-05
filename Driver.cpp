@@ -126,7 +126,7 @@ void Driver::handleChoice(int choice){
     promptNewStudentInfo();
     break;
   case 8:
-    DB->deleteStudent(promptValidIdNumber(true));
+    DB->deleteStudent(promptValidIdNumber(true), false);
     break;
   case 9:
     promptNewFacultyMemberInfo();
@@ -138,7 +138,7 @@ void Driver::handleChoice(int choice){
     DB->changeAdvisor(promptValidIdNumber(true), promptValidIdNumber(false));
     break;
   case 12:
-    DB->removeAdvisee(DB->promptValidIdNumber(false), DB->promptValidIdNumber(true));
+    DB->removeAdvisee(DB->promptValidIdNumber(false), DB->promptValidIdNumber(true), true);
     break;
   case 13:
     DB->rollback();

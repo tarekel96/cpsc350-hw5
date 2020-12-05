@@ -49,7 +49,7 @@ void Database::changeAdvisor(int studentId, int facultyId){
     // check faculty exists
     if(faculty->searchNode(facultyId)){
       // deletes the student id from list of student IDs
-      removeAdvisee(students->getNode(studentId)->getAdvisorId(), studentId);
+      removeAdvisee(students->getNode(studentId)->getAdvisorId(), studentId, true);
       // find the new advisor and add the student to their list of student IDs
       faculty->getNode(facultyId)->addAdvisee(studentId);
       // update advisor field for the Student instance
@@ -74,7 +74,7 @@ void Database::printFacultyAdvisees(int id){
 }
 
 //
-void Database::removeAdvisee(int facultyId, int studentId){
+void Database::removeAdvisee(int facultyId, int studentId, bool needReplaceAdvisor){
   bool facultyHasStudent = faculty->getNode(facultyId)->hasAdvisee(studentId);
   if(facultyHasStudent == false){
         cerr << "ERROR: Faculty ID#: " << to_string(facultyId) << " does not have the student ID#: " << to_string(studentId) << endl;
@@ -94,7 +94,9 @@ void Database::removeAdvisee(int facultyId, int studentId){
     faculty->getNode(facultyId)->removeAdvisee(studentId);
     // remove faculty member from student from advisor field
     //changeAdvisor(studentId, facultyId);
-    replaceAdvisor(facultyId, studentId);
+    if(needReplaceAdvisor){
+      replaceAdvisor(facultyId, studentId);
+    }
   }else{
     cout << "faculty does not exist" << endl;
   }
@@ -145,16 +147,16 @@ void Database::addStudent(int id, string name, string level, string major, doubl
     students->insertNode(id, newStudent);
     faculty->getNode(advisorId)->addAdvisee(id);
     // add new action to undo stack
-    Action* newAction = new Action(newStudent, Type::CREATE);
+    Action* newAction = new Action(newStudent, ActionType::CREATE);
     undo->addAction(newAction, ObjectType::STUDENT);
   }else{
     cout << "the student could not be entered into the system because of an invalid faculty advisor id" << endl;
   }
 }
 
-void Database::deleteStudent(int id){
+void Database::deleteStudent(int id, bool needReplaceAdvisor){
   if(students->searchNode(id)){
-    removeAdvisee(students->getNode(id)->getAdvisorId(), id);
+    removeAdvisee(students->getNode(id)->getAdvisorId(), id, needReplaceAdvisor);
     students->deleteNode(id);
   }
 }
@@ -163,7 +165,7 @@ void Database::addFaculty(int id, string name, string level, string department){
   Faculty* newFaculty = new Faculty(id, name, level, department);
   faculty->insertNode(id, newFaculty);
   // add new action to undo stack
-  Action* newAction = new Action(newFaculty, Type::CREATE);
+  Action* newAction = new Action(newFaculty, ActionType::CREATE);
   undo->addAction(newAction, ObjectType::FACULTY);
 }
 
@@ -204,8 +206,19 @@ bool Database::facultyDatabaseIsEmpty(){
 }
 void Database::rollback(){
   // TODO
-  undo->viewLastAction();
-  // Action* lastAction = undo->getLastAction();
-  // Type type = lastAction->getType();
+  string msg = undo->toStringLastAction();
+
+  const Action* lastAction = undo->getLastAction();
+  ObjectType objectType = undo->getLastObjectType();
+  ActionType actionType = undo->getLastActionType();
+
+  if(objectType == ObjectType::STUDENT){
+    if(actionType == ActionType::CREATE){
+      int id = lastAction->m_id;
+      deleteStudent(id, false);
+      cout << "SUCCESS - undid the previous action: " << endl;
+      cout << msg;
+    }
+  }
 
 }
