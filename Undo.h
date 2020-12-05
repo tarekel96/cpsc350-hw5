@@ -17,6 +17,9 @@ class Undo{
     void addAction(Action* affiliate, ObjectType objectType);
     const Action* getLastAction();
     void viewLastAction();
+    string toStringLastAction();
     string toStringObjectType(ObjectType objectType);
+    ActionType getLastActionType();
+    ObjectType getLastObjectType();
 };
 #endif

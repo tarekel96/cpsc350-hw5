@@ -4,20 +4,22 @@
 #include <string>
 #include "Affiliate.h"
 using namespace std;
-enum class Type {CREATE, READ, UPDATE, DELETE, UNASSIGNED};
+enum class ActionType {CREATE, READ, UPDATE, DELETE, UNASSIGNED};
 class Action{
   private:
-    int m_id;
-    Type m_type;
+
+    ActionType m_type;
     Affiliate* m_affiliate;
   public:
+    int m_id;
     Action();
-    Action(Affiliate* affiliate, Type type);
+    Action(Affiliate* affiliate, ActionType type);
     ~Action();
 
+    const int getId();
     Affiliate* getAffiliate();
-    Type getType();
-    string typeToString(Type type);
+    ActionType getActionType();
+    string typeToString(ActionType type);
     string toString();
 };
 #endif

@@ -24,6 +24,15 @@ void Undo::viewLastAction(){
     cout << UndoStack->peek()->toString();
   }
 }
+string Undo::toStringLastAction(){
+  string ret = "";
+  if(UndoStack->isEmpty())
+    return "ERROR: Undo Stack is empty.";
+  else{
+    ret += UndoStack->peek()->toString();
+  }
+  return ret;
+}
 string Undo::toStringObjectType(ObjectType objectType){
   string ret = "";
 
@@ -43,4 +52,10 @@ string Undo::toStringObjectType(ObjectType objectType){
   }
 
   return ret;
+}
+ActionType Undo::getLastActionType(){
+  return (UndoStack->peek()->getActionType());
+}
+ObjectType Undo::getLastObjectType(){
+  return (ObjectTypeStack->peek());
 }
