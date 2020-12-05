@@ -8,7 +8,7 @@ using namespace std;
 enum class ObjectType {STUDENT, FACULTY, BOTH, UNASSIGNED};
 class Undo{
   private:
-    GenStack<Action*>* UndoStack;
+    GenStack<Action*>* ActionStack;
     GenStack<ObjectType>* ObjectTypeStack;
   public:
     Undo();

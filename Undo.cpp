@@ -1,35 +1,35 @@
 #include "Undo.h"
 
 Undo::Undo(){
-  UndoStack = new GenStack<Action*>(5);
+  ActionStack = new GenStack<Action*>(5);
   ObjectTypeStack = new GenStack<ObjectType>(5);
 }
 Undo::~Undo(){
-  delete UndoStack;
+  delete ActionStack;
   delete ObjectTypeStack;
 }
 void Undo::addAction(Action* action, ObjectType objectType){
-  UndoStack->push(action);
+  ActionStack->push(action);
   ObjectTypeStack->push(objectType);
 }
 const Action* Undo::getLastAction(){
-  if(UndoStack->isEmpty() == false){
-    return UndoStack->pop();
+  if(ActionStack->isEmpty() == false){
+    return ActionStack->pop();
   }
 }
 void Undo::viewLastAction(){
-  if(UndoStack->isEmpty()) cerr << "ERROR: Undo Stack is empty." << endl;
+  if(ActionStack->isEmpty()) cerr << "ERROR: Undo Stack is empty." << endl;
   else{
     cout << "Object Type: " << toStringObjectType(ObjectTypeStack->peek()) << endl;
-    cout << UndoStack->peek()->toString();
+    cout << ActionStack->peek()->toString();
   }
 }
 string Undo::toStringLastAction(){
   string ret = "";
-  if(UndoStack->isEmpty())
+  if(ActionStack->isEmpty())
     return "ERROR: Undo Stack is empty.";
   else{
-    ret += UndoStack->peek()->toString();
+    ret += ActionStack->peek()->toString();
   }
   return ret;
 }
@@ -54,7 +54,7 @@ string Undo::toStringObjectType(ObjectType objectType){
   return ret;
 }
 ActionType Undo::getLastActionType(){
-  return (UndoStack->peek()->getActionType());
+  return (ActionStack->peek()->getActionType());
 }
 ObjectType Undo::getLastObjectType(){
   return (ObjectTypeStack->peek());
