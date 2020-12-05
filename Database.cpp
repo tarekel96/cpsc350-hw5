@@ -206,19 +206,30 @@ bool Database::facultyDatabaseIsEmpty(){
 }
 void Database::rollback(){
   // TODO
-  string msg = undo->toStringLastAction();
+  int id = -1;
+  string msg = "SUCCESS - undid the previous action: \n";
+  msg += undo->toStringLastAction();
 
   const Action* lastAction = undo->getLastAction();
   ObjectType objectType = undo->getLastObjectType();
   ActionType actionType = undo->getLastActionType();
 
+  // if last action affected only student
   if(objectType == ObjectType::STUDENT){
     if(actionType == ActionType::CREATE){
-      int id = lastAction->m_id;
+      id = lastAction->m_id;
       deleteStudent(id, false);
-      cout << "SUCCESS - undid the previous action: " << endl;
       cout << msg;
     }
   }
+  // if last action affected only faculty member
+  else if(objectType == ObjectType::FACULTY){
+    if(actionType == ActionType::CREATE){
+      id = lastAction->m_id;
+      deleteFaculty(id);
+      cout << msg;
+    }
+  }
+  // if last action affected both - student and faculty member
 
 }
