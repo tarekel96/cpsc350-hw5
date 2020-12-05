@@ -14,6 +14,7 @@ class Action{
     int m_id;
     Action();
     Action(Affiliate* affiliate, ActionType type);
+    Action(const Action* A);
     ~Action();
 
     const int getId();

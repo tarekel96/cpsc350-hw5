@@ -10,6 +10,11 @@ Action::Action(Affiliate* affiliate, ActionType type){
   m_id = affiliate->getId();
   m_type = type;
 }
+Action::Action(const Action* A){
+  m_type = A->m_type;
+  m_affiliate = A->m_affiliate;
+  m_id = A->m_id;
+}
 Action::~Action(){
   delete m_affiliate;
 }

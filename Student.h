@@ -15,6 +15,7 @@ class Student: public Affiliate{
   public:
     Student();  /* Default Constructor */
     Student(const Student &S);  /* Copy Constructor */
+    Student(const Student* S);  /* Copy Constructor */
     Student(string name, string level, string major, double gpa, int advisorId); /* Overloaded Constructor */
     Student(int id, string name, string level, string major, double gpa, int advisorId); /* Overloaded Constructor */
     ~Student(); /* Destructor */

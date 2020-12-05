@@ -8,11 +8,14 @@ Undo::~Undo(){
   delete ActionStack;
   delete ObjectTypeStack;
 }
+void Undo::pop(){
+  ObjectTypeStack->pop();
+}
 void Undo::addAction(Action* action, ObjectType objectType){
   ActionStack->push(action);
   ObjectTypeStack->push(objectType);
 }
-const Action* Undo::getLastAction(){
+Action* Undo::getLastAction(){
   if(ActionStack->isEmpty() == false){
     return ActionStack->pop();
   }
@@ -58,4 +61,7 @@ ActionType Undo::getLastActionType(){
 }
 ObjectType Undo::getLastObjectType(){
   return (ObjectTypeStack->peek());
+}
+bool Undo::isEmpty(){
+  return (ActionStack->isEmpty());
 }

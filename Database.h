@@ -27,8 +27,10 @@ class Database{
     void printStudentAdvisor(int id);
     void printFacultyAdvisees(int id);
     void addStudent(int id, string name, string level, string major, double gpa, int advisorId);
+    void addStudent(int id, string name, string level, string major, double gpa, int advisorId, bool beginUndo);
     void deleteStudent(int id, bool needReplaceAdvisor);
     void addFaculty(int id, string name, string level, string department);
+    void addFaculty(int id, string name, string level, string department, bool beginUndo);
     void deleteFaculty(int id);
     void changeAdvisor(int studentId, int facultyId);
     void removeAdvisee(int facultyId, int studentId, bool needReplaceAdvisor);

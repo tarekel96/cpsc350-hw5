@@ -13,13 +13,14 @@ class Undo{
   public:
     Undo();
     ~Undo();
-
+    void pop();
     void addAction(Action* affiliate, ObjectType objectType);
-    const Action* getLastAction();
+    Action* getLastAction();
     void viewLastAction();
     string toStringLastAction();
     string toStringObjectType(ObjectType objectType);
     ActionType getLastActionType();
     ObjectType getLastObjectType();
+    bool isEmpty();
 };
 #endif
