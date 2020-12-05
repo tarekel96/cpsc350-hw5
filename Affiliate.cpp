@@ -10,6 +10,11 @@ Affiliate::Affiliate(const Affiliate& A){
   m_name = A.m_name;
   m_level = A.m_level;
 }
+Affiliate::Affiliate(const Affiliate* A){
+  m_id = A->m_id;
+  m_name = A->m_name;
+  m_level = A->m_level;
+}
 Affiliate::Affiliate(string name, string level){
   m_id = -1;
   m_name = name;

@@ -146,6 +146,15 @@ void Database::addStudent(int id, string name, string level, string major, doubl
     Student* newStudent = new Student(id, name, level, major, gpa, advisorId);
     students->insertNode(id, newStudent);
     faculty->getNode(advisorId)->addAdvisee(id);
+  }else{
+    cout << "the student could not be entered into the system because of an invalid faculty advisor id" << endl;
+  }
+}
+void Database::addStudent(int id, string name, string level, string major, double gpa, int advisorId, bool beginUndo){
+  if(faculty->searchNode(advisorId)){
+    Student* newStudent = new Student(id, name, level, major, gpa, advisorId);
+    students->insertNode(id, newStudent);
+    faculty->getNode(advisorId)->addAdvisee(id);
     // add new action to undo stack
     Action* newAction = new Action(newStudent, ActionType::CREATE);
     undo->addAction(newAction, ObjectType::STUDENT);
@@ -153,15 +162,24 @@ void Database::addStudent(int id, string name, string level, string major, doubl
     cout << "the student could not be entered into the system because of an invalid faculty advisor id" << endl;
   }
 }
-
 void Database::deleteStudent(int id, bool needReplaceAdvisor){
   if(students->searchNode(id)){
+    Student* currStudent = new Student(students->getNode(id));
+    Action* newAction = new Action(currStudent, ActionType::DELETE);
+    undo->addAction(newAction, ObjectType::STUDENT);
     removeAdvisee(students->getNode(id)->getAdvisorId(), id, needReplaceAdvisor);
     students->deleteNode(id);
+    // cout << "FINISHED DELETING" << endl;
+    // cout << undo->toStringLastAction();
   }
 }
 
 void Database::addFaculty(int id, string name, string level, string department){
+  Faculty* newFaculty = new Faculty(id, name, level, department);
+  faculty->insertNode(id, newFaculty);
+}
+
+void Database::addFaculty(int id, string name, string level, string department, bool beginUndo){
   Faculty* newFaculty = new Faculty(id, name, level, department);
   faculty->insertNode(id, newFaculty);
   // add new action to undo stack
@@ -206,30 +224,51 @@ bool Database::facultyDatabaseIsEmpty(){
 }
 void Database::rollback(){
   // TODO
-  int id = -1;
-  string msg = "SUCCESS - undid the previous action: \n";
-  msg += undo->toStringLastAction();
-
-  const Action* lastAction = undo->getLastAction();
-  ObjectType objectType = undo->getLastObjectType();
-  ActionType actionType = undo->getLastActionType();
-
-  // if last action affected only student
-  if(objectType == ObjectType::STUDENT){
-    if(actionType == ActionType::CREATE){
-      id = lastAction->m_id;
-      deleteStudent(id, false);
-      cout << msg;
-    }
+  if(undo->isEmpty()){
+    cout << "ERROR: No action has yet been performed to rollback from." << endl;
   }
-  // if last action affected only faculty member
-  else if(objectType == ObjectType::FACULTY){
-    if(actionType == ActionType::CREATE){
-      id = lastAction->m_id;
-      deleteFaculty(id);
-      cout << msg;
-    }
-  }
-  // if last action affected both - student and faculty member
+  else{
+    int id = -1;
+    string msg = "SUCCESS - undid the previous action: \n";
+    msg += undo->toStringLastAction();
 
+    Action* lastAction = undo->getLastAction();
+    ObjectType objectType = undo->getLastObjectType();
+    ActionType actionType = lastAction->getActionType();
+    
+    if(objectType == ObjectType::STUDENT){
+      if(actionType == ActionType::CREATE){
+        id = lastAction->m_id;
+        deleteStudent(id, false);
+        cout << msg;
+      }
+      else if(actionType == ActionType::READ){
+
+      }
+      else if(actionType == ActionType::UPDATE){}
+      else if(actionType == ActionType::DELETE){
+        id = lastAction->m_id;
+        Affiliate* lastAffiliate = lastAction->getAffiliate();
+        Student* lastStudent = (Student*)lastAffiliate;
+        students->insertNode(id, lastStudent);
+        undo->pop();
+      }
+      else if(actionType == ActionType::UNASSIGNED){}
+      else{}
+    }
+    // if last action affected only faculty member
+    else if(objectType == ObjectType::FACULTY){
+      if(actionType == ActionType::CREATE){
+        id = lastAction->m_id;
+        deleteFaculty(id);
+        cout << msg;
+      }
+      else if(actionType == ActionType::READ){}
+      else if(actionType == ActionType::UPDATE){}
+      else if(actionType == ActionType::DELETE){}
+      else if(actionType == ActionType::UNASSIGNED){}
+      else{}
+    }
+    // if last action affected both - student and faculty member
+  }
 }

@@ -15,6 +15,7 @@ class Affiliate{
   public:
     Affiliate();  /* Default Constructor */
     Affiliate(const Affiliate& A); /* Copy Constructor */
+    Affiliate(const Affiliate* A); /* Copy Constructor */
     Affiliate(string name, string level); /* Overloaded Constructor */
     Affiliate(int id, string name, string level); /* Overloaded Constructor */
     ~Affiliate(); /* Destructor */

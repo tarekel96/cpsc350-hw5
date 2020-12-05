@@ -214,7 +214,7 @@ void Driver::promptNewStudentInfo(){
   cout << "Enter the gpa of the student: ";
   gpa = IE.getDoubleInput(0.0, 4.0);
   cout << endl;
-  DB->addStudent(id, name, level, major, gpa, advisorId);
+  DB->addStudent(id, name, level, major, gpa, advisorId, true);
 }
 void Driver::promptNewFacultyMemberInfo(){
   int id = -1;
@@ -232,5 +232,5 @@ void Driver::promptNewFacultyMemberInfo(){
   cout << "Enter the department of the faculty member: ";
   department = IE.getStringInput();
   cout << endl;
-  DB->addFaculty(id, name, level, department);
+  DB->addFaculty(id, name, level, department, true);
 }
