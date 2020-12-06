@@ -46,10 +46,15 @@ void Database::printStudentAdvisor(int id){
 // changes the advisor of the given id student to the provided the faculty member id
 void Database::changeAdvisor(int studentId, int facultyId){
   // check student exists
+  removedAdvisor = facultyId;
+  Student* newStudent = new Student(students->getNode(studentId));
+  Action* newAction = new Action(newStudent, ActionType::UPDATE);
+  undo->addAction(newAction, ObjectType::STUDENT);
   if(students->searchNode(studentId)){
     // check faculty exists
     if(faculty->searchNode(facultyId)){
       // deletes the student id from list of student IDs
+      removedAdvisor = students->getNode(studentId)->getAdvisorId();
       removeAdvisee(students->getNode(studentId)->getAdvisorId(), studentId, true);
       // find the new advisor and add the student to their list of student IDs
       faculty->getNode(facultyId)->addAdvisee(studentId);
@@ -237,7 +242,13 @@ void Database::rollback(){
       // else if(actionType == ActionType::READ){
       //
       // }
-      else if(actionType == ActionType::UPDATE){}
+      else if(actionType == ActionType::UPDATE){
+        id = lastAction->m_id;
+        faculty->getNode(students->getNode(removedId)->getAdvisorId())->removeAdvisee(id);
+        faculty->getNode(removedAdvisor)->addAdvisee(id);
+        // update advisor field for the Student instance
+        students->getNode(id)->setAdvisorId(removedAdvisor);
+      }
       else if(actionType == ActionType::DELETE){
         id = lastAction->m_id;
         Affiliate* lastAffiliate = lastAction->getAffiliate();
@@ -258,10 +269,12 @@ void Database::rollback(){
       // else if(actionType == ActionType::READ){}
       else if(actionType == ActionType::UPDATE){
         id = lastAction->m_id;
-        //cahnge the advisor of the student that was removed to be the same faculty
-        changeAdvisor(removedId, id);
-        //add the student back to the faculty members list
+        //remove the removed id from the "new" faculty member
+        faculty->getNode(students->getNode(removedId)->getAdvisorId())->removeAdvisee(removedId);
+        //add the advisee to the original faculty member that was deleted
         faculty->getNode(id)->addAdvisee(removedId);
+        //change the faculty of the student id to match
+        students->getNode(removedId)->setAdvisorId(id);
       }
       else if(actionType == ActionType::DELETE){
         id = lastAction->m_id;
@@ -275,6 +288,7 @@ void Database::rollback(){
         while(!deleteFacultyStudents->isEmpty()){
           //pop an id off
           int currStudent = deleteFacultyStudents->pop();
+          faculty->getNode(students->getNode(currStudent)->getAdvisorId())->removeAdvisee(currStudent);
           //add that id back into the faculty list
           faculty->getNode(id)->addAdvisee(currStudent);
           //set that students advisor back to the original faculty member
