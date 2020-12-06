@@ -15,6 +15,8 @@ class Database{
   private:
     InputException IE;
     Undo* undo;
+    GenStack<int>* deleteFacultyStudents;
+    int removedId;
   public:
     KVBST<Faculty*> *faculty;
     KVBST<Student*> *students;

@@ -15,6 +15,7 @@ class Faculty: public Affiliate{
   public:
     Faculty();  /* Default Constructor */
     Faculty(const Faculty &F);  /* Copy Constructor */
+    Faculty(const Faculty *F);
     Faculty(string name, string level, string department); /* Overloaded Constructor */
     Faculty(int id, string name, string level, string department); /* Overloaded Constructor */
     Faculty(int id, string name, string level, string department, GenLinkedList<int>* StudentIds); /* Overloaded Constructor */
