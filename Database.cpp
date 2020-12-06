@@ -202,27 +202,8 @@ void Database::deleteFaculty(int id){
     int newAdvisor = -1;
     int size = faculty->getNode(id)->getListSize();
     for(int i = 0; i < size; ++i){
-      // cout << "count: " << i << endl;
-      // cout << faculty->getNode(id)->toString() << endl;
-      // cout << faculty->getNode(id)->getStudentId(i) << endl;
-      // faculty->getNode(id)->printStudentIds();
-      cout << "the following student requires a new advisor: " << endl;
-      cout << students->getNode(faculty->getNode(id)->getStudentId(0))->toString() << endl;
       deleteFacultyStudents->push(students->getNode(faculty->getNode(id)->getStudentId(0))->getId());
-      cout << "entire id of new advisor: ";
-      // TODO - add try catch exception
-      cin >> newAdvisor;
-      cout << endl;
-      if(faculty->searchNode(newAdvisor)){
-        changeAdvisor(faculty->getNode(id)->getStudentId(0), newAdvisor);
-      }else{
-        while(!faculty->searchNode(newAdvisor)){
-          cout << "please enter a valid faculty id" << endl;
-          cin >> newAdvisor;
-        }
-        changeAdvisor(faculty->getNode(id)->getStudentId(0), newAdvisor);
-        cout << "" << endl;
-      }
+      replaceAdvisor(id, faculty->getNode(id)->getStudentId(i));
     }
     faculty->deleteNode(id);
   }
