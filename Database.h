@@ -17,6 +17,7 @@ class Database{
     Undo* undo;
     GenStack<int>* deleteFacultyStudents;
     int removedId;
+    int removedAdvisor;
   public:
     KVBST<Faculty*> *faculty;
     KVBST<Student*> *students;
