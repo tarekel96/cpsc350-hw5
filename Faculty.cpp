@@ -8,6 +8,10 @@ Faculty::Faculty(const Faculty& F):Affiliate(F){
   m_department = F.m_department;
   m_StudentIds = F.m_StudentIds;
 }
+Faculty::Faculty(const Faculty* F):Affiliate(F){
+  m_department = F->m_department;
+  m_StudentIds = F->m_StudentIds;
+}
 Faculty::Faculty(string name, string level, string department):Affiliate(name, level){
   m_department = department;
   m_StudentIds = new GenLinkedList<int>();
