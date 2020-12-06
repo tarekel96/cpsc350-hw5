@@ -6,6 +6,7 @@ Database::Database(){
   faculty = new KVBST<Faculty*>();
   students = new KVBST<Student*>();
   undo = new Undo();
+  deleteFacultyStudents = new GenStack<int>();
 }
 
 Database::~Database(){
@@ -60,6 +61,8 @@ void Database::changeAdvisor(int studentId, int facultyId){
   }else{
     cout << "student does not exist" << endl;
   }
+  // Action* newAction = new Action(studentId, ActionType::CREATE);
+  // undo->addAction(newAction, ObjectType::STUDENT);
 }
 
 void Database::printFacultyAdvisees(int id){
@@ -75,6 +78,10 @@ void Database::printFacultyAdvisees(int id){
 
 //
 void Database::removeAdvisee(int facultyId, int studentId, bool needReplaceAdvisor){
+  removedId = studentId;
+  Student* newFaculty = new Faculty(faculty->getNode(facultyId));
+  Action* newAction = new Action(newFaculty, ActionType::UPDATE);
+  undo->addAction(newAction, ObjectType::FACULTY);
   bool facultyHasStudent = faculty->getNode(facultyId)->hasAdvisee(studentId);
   if(facultyHasStudent == false){
         cerr << "ERROR: Faculty ID#: " << to_string(facultyId) << " does not have the student ID#: " << to_string(studentId) << endl;
@@ -188,6 +195,9 @@ void Database::addFaculty(int id, string name, string level, string department, 
 }
 
 void Database::deleteFaculty(int id){
+  Faculty* newFaculty = new Faculty(faculty->getNode(id));
+  Action* newAction = new Action(newFaculty, ActionType::DELETE);
+  undo->addAction(newAction, ObjectType::FACULTY);
   if(faculty->searchNode(id)){
     int newAdvisor = -1;
     int size = faculty->getNode(id)->getListSize();
@@ -198,6 +208,7 @@ void Database::deleteFaculty(int id){
       // faculty->getNode(id)->printStudentIds();
       cout << "the following student requires a new advisor: " << endl;
       cout << students->getNode(faculty->getNode(id)->getStudentId(0))->toString() << endl;
+      deleteFacultyStudents->push(students->getNode(faculty->getNode(id)->getStudentId(0)));
       cout << "entire id of new advisor: ";
       // TODO - add try catch exception
       cin >> newAdvisor;
@@ -235,16 +246,16 @@ void Database::rollback(){
     Action* lastAction = undo->getLastAction();
     ObjectType objectType = undo->getLastObjectType();
     ActionType actionType = lastAction->getActionType();
-    
+
     if(objectType == ObjectType::STUDENT){
       if(actionType == ActionType::CREATE){
         id = lastAction->m_id;
         deleteStudent(id, false);
         cout << msg;
       }
-      else if(actionType == ActionType::READ){
-
-      }
+      // else if(actionType == ActionType::READ){
+      //
+      // }
       else if(actionType == ActionType::UPDATE){}
       else if(actionType == ActionType::DELETE){
         id = lastAction->m_id;
@@ -263,9 +274,22 @@ void Database::rollback(){
         deleteFaculty(id);
         cout << msg;
       }
-      else if(actionType == ActionType::READ){}
-      else if(actionType == ActionType::UPDATE){}
-      else if(actionType == ActionType::DELETE){}
+      // else if(actionType == ActionType::READ){}
+      else if(actionType == ActionType::UPDATE){
+        id = lastAction->m_id;
+        changeAdvisor(removedId, id);
+        faculty->getNode(id)->addAdvisee(removedId);
+      }
+      else if(actionType == ActionType::DELETE){
+        id = lastAction->m_id;
+        Affiliate* lastAffiliate = lastAction->getAffiliate();
+        Faculty* lastFaculty = (Faculty*)lastAffiliate;
+        faculty->insertNode(id, lastFaculty);
+        while(!deleteFacultyStudents->isEmpty()){
+          faculty->getNode(id)->addAdvisee(deleteFacultyStudents->pop()->setAdvisorId(id));
+        }
+        undo->pop();
+      }
       else if(actionType == ActionType::UNASSIGNED){}
       else{}
     }
