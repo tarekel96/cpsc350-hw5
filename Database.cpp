@@ -207,7 +207,7 @@ void Database::deleteFaculty(int id){
     int newAdvisor = -1;
     int size = faculty->getNode(id)->getListSize();
     for(int i = 0; i < size; ++i){
-      deleteFacultyStudents->push(students->getNode(faculty->getNode(id)->getStudentId(0))->getId());
+      deleteFacultyStudents->push(students->getNode(faculty->getNode(id)->getStudentId(i))->getId());
       replaceAdvisor(id, faculty->getNode(id)->getStudentId(i));
     }
     faculty->deleteNode(id);
@@ -270,7 +270,7 @@ void Database::rollback(){
       else if(actionType == ActionType::UPDATE){
         id = lastAction->m_id;
         //remove the removed id from the "new" faculty member
-        faculty->getNode(students->getNode(removedId)->getAdvisorId())->removeAdvisee(removedId);
+        // faculty->getNode(students->getNode(removedId)->getAdvisorId())->removeAdvisee(removedId);
         //add the advisee to the original faculty member that was deleted
         faculty->getNode(id)->addAdvisee(removedId);
         //change the faculty of the student id to match
@@ -278,6 +278,7 @@ void Database::rollback(){
       }
       else if(actionType == ActionType::DELETE){
         id = lastAction->m_id;
+        cout << id << endl;
         //get the deleted faculty member back
         Affiliate* lastAffiliate = lastAction->getAffiliate();
         Faculty* lastFaculty = (Faculty*)lastAffiliate;
@@ -285,10 +286,12 @@ void Database::rollback(){
         faculty->insertNode(id, lastFaculty);
         //run through the ids of the students that were originally held by that
         //faculty member, until stack is empty
+        int currStudent;
+        cout << deleteFacultyStudents->getSize() << endl;
         while(!deleteFacultyStudents->isEmpty()){
           //pop an id off
-          int currStudent = deleteFacultyStudents->pop();
-          faculty->getNode(students->getNode(currStudent)->getAdvisorId())->removeAdvisee(currStudent);
+          currStudent = deleteFacultyStudents->pop();
+          // faculty->getNode(students->getNode(currStudent)->getAdvisorId())->removeAdvisee(currStudent);
           //add that id back into the faculty list
           faculty->getNode(id)->addAdvisee(currStudent);
           //set that students advisor back to the original faculty member
