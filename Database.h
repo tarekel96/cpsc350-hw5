@@ -36,7 +36,7 @@ class Database{
     void addFaculty(int id, string name, string level, string department, bool beginUndo);
     void deleteFaculty(int id);
     void changeAdvisor(int studentId, int facultyId);
-    void removeAdvisee(int facultyId, int studentId, bool needReplaceAdvisor);
+    void removeAdvisee(int facultyId, int studentId, bool needReplaceAdvisor, bool addAction);
     void replaceAdvisor(int facultyId, int studentId);
     int promptIdNumber(bool student);
     int promptValidIdNumber(bool student);

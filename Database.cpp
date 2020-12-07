@@ -78,7 +78,7 @@ void Database::changeAdvisor(int studentId, int facultyId){
     if(faculty->searchNode(facultyId)){
       // deletes the student id from list of student IDs
       removedAdvisor = students->getNode(studentId)->getAdvisorId();
-      removeAdvisee(students->getNode(studentId)->getAdvisorId(), studentId, true);
+      removeAdvisee(students->getNode(studentId)->getAdvisorId(), studentId, true, true);
       // find the new advisor and add the student to their list of student IDs
       faculty->getNode(facultyId)->addAdvisee(studentId);
       // update advisor field for the Student instance
@@ -106,12 +106,14 @@ void Database::printFacultyAdvisees(int id){
 }
 
 //remove an advisee, replace if neccessary
-void Database::removeAdvisee(int facultyId, int studentId, bool needReplaceAdvisor){
+void Database::removeAdvisee(int facultyId, int studentId, bool needReplaceAdvisor, bool addAction){
   removedId = studentId;
-  //create a new action to put into the undo stack
-  Faculty* newFaculty = new Faculty(faculty->getNode(facultyId));
-  Action* newAction = new Action(newFaculty, ActionType::UPDATE);
-  undo->addAction(newAction, ObjectType::FACULTY);
+  if(addAction){
+    //create a new action to put into the undo stack
+    Faculty* newFaculty = new Faculty(faculty->getNode(facultyId));
+    Action* newAction = new Action(newFaculty, ActionType::UPDATE);
+    undo->addAction(newAction, ObjectType::FACULTY);
+  }
   //make sure that reassigned students get valid ids
   bool facultyHasStudent = faculty->getNode(facultyId)->hasAdvisee(studentId);
   if(facultyHasStudent == false){
@@ -213,8 +215,10 @@ void Database::deleteStudent(int id, bool needReplaceAdvisor){
   if(students->searchNode(id)){
     Student* currStudent = new Student(students->getNode(id));
     Action* newAction = new Action(currStudent, ActionType::DELETE);
+    cout << "before new action" << endl;
+    cout << newAction->toString();
     undo->addAction(newAction, ObjectType::STUDENT);
-    removeAdvisee(students->getNode(id)->getAdvisorId(), id, needReplaceAdvisor);
+    removeAdvisee(students->getNode(id)->getAdvisorId(), id, needReplaceAdvisor, false);
     students->deleteNode(id);
     // cout << "FINISHED DELETING" << endl;
     // cout << undo->toStringLastAction();

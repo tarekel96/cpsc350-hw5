@@ -3,15 +3,15 @@ Name: moshier
 Level: prof
 Department: math
 
-ID#: 22
-Name: rene
-Level: prof
-Department: cs
-
 ID#: 91
 Name: stevens
 Level: prof
 Department: math
+
+ID#: 22
+Name: rene
+Level: prof
+Department: cs
 
 ID#: 15
 Name: zzzz
