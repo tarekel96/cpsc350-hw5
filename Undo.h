@@ -6,6 +6,10 @@
 #include "GenStack.h"
 using namespace std;
 enum class ObjectType {STUDENT, FACULTY, BOTH, UNASSIGNED};
+/*
+  * @name Undo - class that represents an action given by the user
+  * @author Tarek El-Hajjaoui & Krishna Narayan
+*/
 class Undo{
   private:
     GenStack<Action*>* ActionStack;

@@ -8,6 +8,10 @@
 #include "InputException.h"
 #include "FileError.h"
 using namespace std;
+/*
+  * @name Action - class that drivers database functionality
+  * @author Tarek El-Hajjaoui & Krishna Narayan
+*/
 class Driver{
   private:
     string m_file;

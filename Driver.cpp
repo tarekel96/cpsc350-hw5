@@ -1,5 +1,6 @@
 #include "Driver.h"
 
+//constructs a driver
 Driver::Driver(){
   m_file = "";
   DB = new Database();
@@ -12,6 +13,7 @@ Driver::Driver(){
     handleChoice(choice);
   }
 }
+//driver with a new file in it
 Driver::Driver(string file){
   m_file = file;
   DB = new Database();
@@ -28,6 +30,7 @@ Driver::~Driver(){
 void Driver::setFile(string file){
   m_file = file;
 }
+//process a file based on substrings
 void Driver::processFile(){
   inFile.open(m_file);
   string line;
@@ -64,6 +67,7 @@ void Driver::processFile(){
   }
   cout << "File Successfully Processed. The current Database is now populated." << endl;
 }
+//print the database in its entirety
 void Driver::printDB(){
   if((DB->studentDatabaseIsEmpty()) && (DB->facultyDatabaseIsEmpty())){
     cout << "Database is empty. There are no students or faculty." << endl;
@@ -73,14 +77,17 @@ void Driver::printDB(){
     printFaculty();
   }
 }
+//print students
 void Driver::printStudents(){
   if(DB->studentDatabaseIsEmpty() == false) DB->printStudents();
   else cout << "Message: The database does not contain any students\n";
 }
+//print faculty
 void Driver::printFaculty(){
   if(DB->facultyDatabaseIsEmpty() == false) DB->printFaculty();
   else cout << "Message: The database does not contain any faculty members\n";
 }
+//print choices
 int Driver::promptChoice(){
   int choice = -1;
   cout << "Please pick from one of the following integer options (1-14): " << endl;
@@ -101,6 +108,7 @@ int Driver::promptChoice(){
   choice = IE.getIntegerInput(1);
   return choice;
 }
+//switch case to act on upon choice given
 void Driver::handleChoice(int choice){
   switch (choice) {
   case 1:
@@ -150,6 +158,7 @@ void Driver::handleChoice(int choice){
     break;
   }
 }
+//get  a new id number
 int Driver::promptNewIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
@@ -171,6 +180,7 @@ int Driver::promptNewIdNumber(bool student){
   }
   return id;
 }
+//get a valid id number
 int Driver::promptValidIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
@@ -192,6 +202,7 @@ int Driver::promptValidIdNumber(bool student){
   }
   return id;
 }
+//prompt info if a new student is going to be input
 void Driver::promptNewStudentInfo(){
   if(DB->faculty->isEmpty()){
     cout << "ERROR: There are no faculty members in DB so cannot create student yet." << endl;
@@ -222,6 +233,7 @@ void Driver::promptNewStudentInfo(){
     DB->addStudent(id, name, level, major, gpa, advisorId, true);
   }
 }
+//prompt for a new faculty memeber
 void Driver::promptNewFacultyMemberInfo(){
   int id = -1;
   string name, level, department = "";
@@ -240,6 +252,7 @@ void Driver::promptNewFacultyMemberInfo(){
   cout << endl;
   DB->addFaculty(id, name, level, department, true);
 }
+//exit the driver
 void Driver::exitAndSave(){
   outFile.open(m_file);
   outFile << DB->exit();

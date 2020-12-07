@@ -2,12 +2,17 @@
 #include <fstream>
 #include <string>
 
+//database class contains two trees, one of faculty, one of students,
+//as well as variables to track actions for the rollback function.
+
 Database::Database(){
   faculty = new KVBST<Faculty*>();
   students = new KVBST<Student*>();
   undo = new Undo();
   deleteFacultyStudents = new GenStack<int>();
 }
+
+//database destrucctor
 
 Database::~Database(){
   delete faculty;
@@ -16,21 +21,29 @@ Database::~Database(){
   delete deleteFacultyStudents;
 }
 
+//print the student tree
 void Database::printStudents(){
   students->printTree(true);
 }
 
+//print the faculty tree
 void Database::printFaculty(){
   faculty->printTree(true);
 }
+
+//put faculty data into string format for file out purposes
 string Database::getFacultyData(){
   return faculty->getTreeToString();
   //return faculty->treeToString();
 }
+
+//put student data into string formart for file out purposes
 string Database::getStudentData(){
   return students->getTreeToString();
   //return students->treeToString();
 }
+
+//print the data of a given student
 void Database::findStudent(int id){
   if(students->searchNode(id)){
     cout << students->getNode(id)->toString() << endl;
@@ -39,6 +52,7 @@ void Database::findStudent(int id){
   }
 }
 
+//print data of a given faculty
 void Database::findFaculty(int id){
   if(faculty->searchNode(id)){
     cout << faculty->getNode(id)->toString() << endl;
@@ -47,6 +61,7 @@ void Database::findFaculty(int id){
   }
 }
 
+//print the info of a stuents advisor
 void Database::printStudentAdvisor(int id){
   int advisorId = students->getNode(id)->getAdvisorId();
   findFaculty(advisorId);
@@ -78,6 +93,7 @@ void Database::changeAdvisor(int studentId, int facultyId){
   // undo->addAction(newAction, ObjectType::STUDENT);
 }
 
+//print the advisees of a faculty member by runing through there advisee list
 void Database::printFacultyAdvisees(int id){
   //loop through the faculty advisee list and print using findStudent
   if(faculty->searchNode(id)){
@@ -89,12 +105,14 @@ void Database::printFacultyAdvisees(int id){
   }
 }
 
-//
+//remove an advisee, replace if neccessary
 void Database::removeAdvisee(int facultyId, int studentId, bool needReplaceAdvisor){
   removedId = studentId;
+  //create a new action to put into the undo stack
   Faculty* newFaculty = new Faculty(faculty->getNode(facultyId));
   Action* newAction = new Action(newFaculty, ActionType::UPDATE);
   undo->addAction(newAction, ObjectType::FACULTY);
+  //make sure that reassigned students get valid ids
   bool facultyHasStudent = faculty->getNode(facultyId)->hasAdvisee(studentId);
   if(facultyHasStudent == false){
         cerr << "ERROR: Faculty ID#: " << to_string(facultyId) << " does not have the student ID#: " << to_string(studentId) << endl;
@@ -121,6 +139,8 @@ void Database::removeAdvisee(int facultyId, int studentId, bool needReplaceAdvis
     cout << "faculty does not exist" << endl;
   }
 }
+
+//replace  astudents advisor
 void Database::replaceAdvisor(int facultyId, int studentId){
   int newFacultyId = -1;
   cout << "Student ID#: " << to_string(studentId) << " needs a new advisor..." << endl;
@@ -133,14 +153,17 @@ void Database::replaceAdvisor(int facultyId, int studentId){
   }
   // assign advisor id to advisor field of the student
   students->getNode(studentId)->setAdvisorId(newFacultyId);
+  //
   faculty->getNode(newFacultyId)->addAdvisee(studentId);
 }
+//prompt for an integer id
 int Database::promptIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
   id = IE.getIntegerInput(1);
   return id;
 }
+//make sure  av number is valid through if statements
 int Database::promptValidIdNumber(bool student){
   int id = -1;
   student ? cout << "Enter the Student ID number: \n" : cout << "Enter the Faculty Member ID number: \n";
@@ -162,6 +185,7 @@ int Database::promptValidIdNumber(bool student){
   }
   return id;
 }
+//add student to the databse. input parameters for constructor
 void Database::addStudent(int id, string name, string level, string major, double gpa, int advisorId){
   if(faculty->searchNode(advisorId)){
     Student* newStudent = new Student(id, name, level, major, gpa, advisorId);
@@ -171,6 +195,7 @@ void Database::addStudent(int id, string name, string level, string major, doubl
     cout << "the student could not be entered into the system because of an invalid faculty advisor id" << endl;
   }
 }
+//add a student, bt make an action to add to undo stack
 void Database::addStudent(int id, string name, string level, string major, double gpa, int advisorId, bool beginUndo){
   if(faculty->searchNode(advisorId)){
     Student* newStudent = new Student(id, name, level, major, gpa, advisorId);
@@ -183,6 +208,7 @@ void Database::addStudent(int id, string name, string level, string major, doubl
     cout << "the student could not be entered into the system because of an invalid faculty advisor id" << endl;
   }
 }
+//delete student, add action to undo stack
 void Database::deleteStudent(int id, bool needReplaceAdvisor){
   if(students->searchNode(id)){
     Student* currStudent = new Student(students->getNode(id));
@@ -194,12 +220,12 @@ void Database::deleteStudent(int id, bool needReplaceAdvisor){
     // cout << undo->toStringLastAction();
   }
 }
-
+//add a faculty memeber via parameters
 void Database::addFaculty(int id, string name, string level, string department){
   Faculty* newFaculty = new Faculty(id, name, level, department);
   faculty->insertNode(id, newFaculty);
 }
-
+//add faculty memebr, add action to undo stack
 void Database::addFaculty(int id, string name, string level, string department, bool beginUndo){
   Faculty* newFaculty = new Faculty(id, name, level, department);
   faculty->insertNode(id, newFaculty);
@@ -207,7 +233,7 @@ void Database::addFaculty(int id, string name, string level, string department, 
   Action* newAction = new Action(newFaculty, ActionType::CREATE);
   undo->addAction(newAction, ObjectType::FACULTY);
 }
-
+//delete a faculty member, add action to undo stack
 void Database::deleteFaculty(int id){
   Faculty* newFaculty = new Faculty(faculty->getNode(id));
   Action* newAction = new Action(newFaculty, ActionType::DELETE);
@@ -215,6 +241,7 @@ void Database::deleteFaculty(int id){
   if(faculty->searchNode(id)){
     int newAdvisor = -1;
     int size = faculty->getNode(id)->getListSize();
+    //for the students without an advisor after deletion, reassign
     for(int i = 0; i < size; ++i){
       deleteFacultyStudents->push(students->getNode(faculty->getNode(id)->getStudentId(i))->getId());
       replaceAdvisor(id, faculty->getNode(id)->getStudentId(i));
@@ -222,14 +249,16 @@ void Database::deleteFaculty(int id){
     faculty->deleteNode(id);
   }
 }
+//check if the student database is empty
 bool Database::studentDatabaseIsEmpty(){
   return (students->isEmpty());
 }
+//check if the faculty database is empty
 bool Database::facultyDatabaseIsEmpty(){
   return (faculty->isEmpty());
 }
+//rollback function
 void Database::rollback(){
-  // TODO
   if(undo->isEmpty()){
     cout << "ERROR: No action has yet been performed to rollback from." << endl;
   }
@@ -237,11 +266,11 @@ void Database::rollback(){
     int id = -1;
     string msg = "SUCCESS - undid the previous action: \n";
     msg += undo->toStringLastAction();
-
+    //work with last undo action
     Action* lastAction = undo->getLastAction();
     ObjectType objectType = undo->getLastObjectType();
     ActionType actionType = lastAction->getActionType();
-
+    //undo creation by deleting student
     if(objectType == ObjectType::STUDENT){
       if(actionType == ActionType::CREATE){
         id = lastAction->m_id;
@@ -251,9 +280,12 @@ void Database::rollback(){
       // else if(actionType == ActionType::READ){
       //
       // }
+      //undo updating student advisor
       else if(actionType == ActionType::UPDATE){
         id = lastAction->m_id;
+        //remove advisee from current faculty id
         faculty->getNode(students->getNode(removedId)->getAdvisorId())->removeAdvisee(id);
+        //add it to the original
         faculty->getNode(removedAdvisor)->addAdvisee(id);
         // update advisor field for the Student instance
         students->getNode(id)->setAdvisorId(removedAdvisor);
@@ -314,6 +346,7 @@ void Database::rollback(){
     // if last action affected both - student and faculty member
   }
 }
+//exit the program, save data to file
 string Database::exit(){
   string ret = "";
   ret += getFacultyData();
