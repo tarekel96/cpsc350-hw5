@@ -10,7 +10,7 @@
 using namespace std;
 
 int main(int argc, char ** argv){
-  
+  Driver* driver;
   FileError* FE; /* used to check file input */
   if(argc > 1){  /* if console argument provided */
     FE = new FileError(argv[1]);
@@ -21,22 +21,14 @@ int main(int argc, char ** argv){
         if(FE->pass()) break;
       }
     }
+    string file = FE->getFileValue();
+    driver = new Driver(file);
   }
-  else { /* if no console argument provided - get file name */
-    FE = new FileError();
-
-    if(FE->pass() == false){
-      while(true){
-        FE->setFile(FE->getFile());
-        if(FE->pass()) break;
-      }
-    }
+  else { /* if no console argument provided */
+    driver = new Driver();
   }
-  /* at this point, the user inputted file is valid */
-  string file = FE->getFileValue();
 
-  Driver* driver = new Driver(file);
-
+  delete FE;
   delete driver;
 
   return 0;

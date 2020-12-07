@@ -13,6 +13,7 @@ Database::~Database(){
   delete faculty;
   delete students;
   delete undo;
+  delete deleteFacultyStudents;
 }
 
 void Database::printStudents(){
