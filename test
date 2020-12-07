@@ -20,6 +20,13 @@ Major: avfx/cs
 GPA: 3.500000
 Advisor ID#: 22
 
+ID#: 8
+Name: kobe
+Level: bball
+Major: bball
+GPA: 4.000000
+Advisor ID#: 91
+
 ID#: 31
 Name: krishna
 Level: junior
@@ -34,9 +41,3 @@ Major: cs
 GPA: 3.500000
 Advisor ID#: 3
 
-ID#: 44
-Name: aus
-Level: junior
-Major: cs
-GPA: 3.500000
-Advisor ID#: 22

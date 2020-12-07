@@ -3,12 +3,15 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdlib.h>     /* exit, EXIT_FAILURE */
 #include "Database.h"
 #include "InputException.h"
+#include "FileError.h"
 using namespace std;
 class Driver{
   private:
     string m_file;
+    string m_outFileName;
     Database* DB;
     ifstream inFile;
     ofstream outFile;
@@ -30,5 +33,6 @@ class Driver{
     int promptValidIdNumber(bool student); // use for finding a valid (existing) student/faculty
     void promptNewStudentInfo();
     void promptNewFacultyMemberInfo();
+    void exitAndSave();
 };
 #endif

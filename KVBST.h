@@ -4,6 +4,7 @@
   * @name KVBST - class that represents a template class version of a Key-Value Pair Binary Search Tree
   * @author Tarek El-Hajjaoui & Krishna Narayan
 */
+#include <string>
 #include "KVTreeNode.h"
 template<class T>
 class KVBST{
@@ -27,6 +28,8 @@ class KVBST{
     /* PRINT FUNCTIONS */
     void recPrint(KVTreeNode<T>* node, bool toString); // recursive print
     void printTree(bool toString);
+    void treeToStr(KVTreeNode<T>* root, string& str);
+    string getTreeToString();
 };
 template<class T>
 KVBST<T>::KVBST(){
@@ -34,9 +37,7 @@ KVBST<T>::KVBST(){
 }
 template<class T>
 KVBST<T>::~KVBST(){
-  // iterate and delete, this O(n)- cannot delete from top down
   if(root != NULL) delete root;
-  root = NULL;
 }
 template<class T>
 bool KVBST<T>::isEmpty(){
@@ -47,13 +48,42 @@ void KVBST<T>::recPrint(KVTreeNode<T>* node, bool toString){
   if(node != NULL){
     recPrint(node->left, toString);
     if(toString) cout << node->value->toString() << endl;
-    else cout << node->value << ", ";
+    else cout << node->value << endl;
     recPrint(node->right, toString);
   }
 }
 template<class T>
 void KVBST<T>::printTree(bool toString){
   recPrint(root, toString);
+}
+template<class T>
+void KVBST<T>::treeToStr(KVTreeNode<T>* root, string& str){
+    // bases case
+    if (root == NULL)
+        return;
+
+    // push the root data as character
+    str += root->value->toString();
+    str += "\n";
+
+    // if leaf node, then return
+    if (!root->left && !root->right)
+        return;
+
+    // for left subtree
+    treeToStr(root->left, str);
+
+    // only if right child is present to
+    // avoid extra parenthesis
+    if (root->right) {
+        treeToStr(root->right, str);
+    }
+}
+template<class T>
+string KVBST<T>::getTreeToString(){
+  string str = "";
+  treeToStr(root, str);
+  return str;
 }
 template<class T>
 T KVBST<T>::getMax(){

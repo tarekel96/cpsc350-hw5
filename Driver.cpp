@@ -3,10 +3,9 @@
 Driver::Driver(){
   m_file = "";
   DB = new Database();
-  cout << "Enter the name of input file: ";
+  cout << "Enter the name of file where the Database will be saved to: ";
   string file = IE.getStringInput();
   setFile(file);
-  processFile();
   int choice = -1;
   while(choice != 14){
     choice = promptChoice();
@@ -144,6 +143,7 @@ void Driver::handleChoice(int choice){
     DB->rollback();
     break;
   case 14:
+    exitAndSave();
     break;
   default:
     cout << "ERROR: Input did not match any of the choices. Please follow directions." << endl;
@@ -193,28 +193,34 @@ int Driver::promptValidIdNumber(bool student){
   return id;
 }
 void Driver::promptNewStudentInfo(){
-  int id, advisorId = -1;
-  string name, level, major = "";
-  double gpa = -1.0;
-  cout << "New student needs a unique id number. ";
-  id = promptNewIdNumber(true);
-  cout << endl;
-  cout << "New student needs a valid advisor id number. ";
-  advisorId = promptValidIdNumber(false);
-  cout << endl;
-  cout << "Enter the name of the student: ";
-  name = IE.getStringInput();
-  cout << endl;
-  cout << "Enter the level of the student: ";
-  level = IE.getStringInput();
-  cout << endl;
-  cout << "Enter the major of the student: ";
-  major = IE.getStringInput();
-  cout << endl;
-  cout << "Enter the gpa of the student: ";
-  gpa = IE.getDoubleInput(0.0, 4.0);
-  cout << endl;
-  DB->addStudent(id, name, level, major, gpa, advisorId, true);
+  if(DB->faculty->isEmpty()){
+    cout << "ERROR: There are no faculty members in DB so cannot create student yet." << endl;
+    cout << "Please create a faculty member first. Thank you." << endl;
+  }
+  else{
+    int id, advisorId = -1;
+    string name, level, major = "";
+    double gpa = -1.0;
+    cout << "New student needs a unique id number. ";
+    id = promptNewIdNumber(true);
+    cout << endl;
+    cout << "New student needs a valid advisor id number. ";
+    advisorId = promptValidIdNumber(false);
+    cout << endl;
+    cout << "Enter the name of the student: ";
+    name = IE.getStringInput();
+    cout << endl;
+    cout << "Enter the level of the student: ";
+    level = IE.getStringInput();
+    cout << endl;
+    cout << "Enter the major of the student: ";
+    major = IE.getStringInput();
+    cout << endl;
+    cout << "Enter the gpa of the student: ";
+    gpa = IE.getDoubleInput(0.0, 4.0);
+    cout << endl;
+    DB->addStudent(id, name, level, major, gpa, advisorId, true);
+  }
 }
 void Driver::promptNewFacultyMemberInfo(){
   int id = -1;
@@ -233,4 +239,11 @@ void Driver::promptNewFacultyMemberInfo(){
   department = IE.getStringInput();
   cout << endl;
   DB->addFaculty(id, name, level, department, true);
+}
+void Driver::exitAndSave(){
+  outFile.open(m_file);
+  outFile << DB->exit();
+  outFile.close();
+  cout << "SUCCESS: Program has been terminated and the Database has been saved in " << m_file << endl;
+  exit(EXIT_SUCCESS);
 }

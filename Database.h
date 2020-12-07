@@ -41,7 +41,9 @@ class Database{
     int promptIdNumber(bool student);
     int promptValidIdNumber(bool student);
     void rollback();
-    void exit();
+    string getFacultyData();
+    string getStudentData();
+    string exit();
 
     bool studentDatabaseIsEmpty();
     bool facultyDatabaseIsEmpty();

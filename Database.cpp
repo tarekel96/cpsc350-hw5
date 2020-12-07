@@ -13,6 +13,7 @@ Database::~Database(){
   delete faculty;
   delete students;
   delete undo;
+  delete deleteFacultyStudents;
 }
 
 void Database::printStudents(){
@@ -22,7 +23,14 @@ void Database::printStudents(){
 void Database::printFaculty(){
   faculty->printTree(true);
 }
-
+string Database::getFacultyData(){
+  return faculty->getTreeToString();
+  //return faculty->treeToString();
+}
+string Database::getStudentData(){
+  return students->getTreeToString();
+  //return students->treeToString();
+}
 void Database::findStudent(int id){
   if(students->searchNode(id)){
     cout << students->getNode(id)->toString() << endl;
@@ -305,4 +313,10 @@ void Database::rollback(){
     }
     // if last action affected both - student and faculty member
   }
+}
+string Database::exit(){
+  string ret = "";
+  ret += getFacultyData();
+  ret += getStudentData();
+  return ret;
 }
