@@ -4,6 +4,10 @@
 #include <string>
 #include "Affiliate.h"
 using namespace std;
+/*
+  * @name Action - class that represents an action given by the user
+  * @author Tarek El-Hajjaoui & Krishna Narayan
+*/
 enum class ActionType {CREATE, READ, UPDATE, DELETE, UNASSIGNED};
 class Action{
   private:
