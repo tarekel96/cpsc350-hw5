@@ -144,6 +144,7 @@ void Driver::handleChoice(int choice){
     DB->rollback();
     break;
   case 14:
+    exitAndSave();
     break;
   default:
     cout << "ERROR: Input did not match any of the choices. Please follow directions." << endl;
@@ -233,4 +234,11 @@ void Driver::promptNewFacultyMemberInfo(){
   department = IE.getStringInput();
   cout << endl;
   DB->addFaculty(id, name, level, department, true);
+}
+void Driver::exitAndSave(){
+  outFile.open(m_file);
+  outFile << DB->exit();
+  outFile.close();
+  cout << "SUCCESS: Program has been terminated and the Database has been saved in " << m_file << endl; 
+  exit(EXIT_SUCCESS);
 }
